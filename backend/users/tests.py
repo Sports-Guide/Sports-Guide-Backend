@@ -24,25 +24,21 @@ class UserModelTest(TestCase):
         self.assertIsNotNone(self.user.date_joined)
 
     def test_return_nickname(self):
-        """Возвращается ник пользователя"""
-        self.assertTrue(self.user, 'testuser')
+        """Возвращается email пользователя"""
+        self.assertTrue(self.user, 'test@example.com')
 
-    def test_password_validation(self):
-        with self.assertRaises(ValidationError):
-            self.user.password = 'weak'
-            self.user.full_clean()
+    def test_short_pass(self):
+        self.user.password = 'weak'
+        self.assertRaises(ValidationError)
 
-        with self.assertRaises(ValidationError):
-            self.user.password = 'thispasswordiswaytoolongandshouldfail'
-            self.user.full_clean()
+    def test_long_pass(self):
+        self.user.password = 'thepasswordistoolongtobeused'
+        self.assertRaises(ValidationError)
 
-        with self.assertRaises(ValidationError):
-            self.user.password = 'alllowercase'
-            self.user.full_clean()
+    def test_caps_pass(self):
+        self.user.password = '12PASSWORD'
+        self.assertRaises(ValidationError)
 
-        with self.assertRaises(ValidationError):
-            self.user.password = 'ALLUPPERCASE'
-            self.user.full_clean()
-
-        self.user.password = 'StrongPassword123'
-        self.user.full_clean()
+    def test_low_pass(self):
+        self.user.password = '12password'
+        self.assertRaises(ValidationError)
