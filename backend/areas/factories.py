@@ -1,6 +1,7 @@
 import factory
 from django.contrib.auth import get_user_model
 
+from .constants import ModerationStatus
 from .models import Area, Category, Comment
 
 User = get_user_model()
@@ -30,7 +31,7 @@ class AreaFactory(factory.django.DjangoModelFactory):
     author = factory.SubFactory(UserFactory)
     latitude = 55.7558
     longitude = 37.6173
-    moderation_status = 'pending'
+    moderation_status = ModerationStatus.PENDING.value
     description = "Sample area description"
 
 

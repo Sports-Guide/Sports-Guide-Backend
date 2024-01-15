@@ -15,6 +15,7 @@ class Category(models.Model):
 
 class Area(models.Model):
     MODERATION_STATUS_CHOICES = [
+        ('rejected', 'Отклонено'),
         ('pending', 'На рассмотрении'),
         ('approved', 'Одобрено'),
     ]
