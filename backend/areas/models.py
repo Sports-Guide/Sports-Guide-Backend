@@ -8,6 +8,9 @@ class Category(models.Model):
     name = models.CharField(max_length=255, verbose_name='название')
     description = models.TextField(max_length=1000, verbose_name='описание')
 
+    def __str__(self):
+        return self.name
+
     class Meta:
         verbose_name = 'категория'
         verbose_name_plural = 'категории'
@@ -77,7 +80,7 @@ class Comment(models.Model):
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        verbose_name='авто'
+        verbose_name='автор'
     )
     area = models.ForeignKey(
         Area,
