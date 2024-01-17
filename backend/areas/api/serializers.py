@@ -1,6 +1,5 @@
-from rest_framework import serializers
-
 from areas.models import Area, AreaImage, Category, Comment
+from rest_framework import serializers
 from users.serializers import CustomUserSerializer
 
 

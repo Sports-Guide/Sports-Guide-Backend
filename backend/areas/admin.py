@@ -1,6 +1,5 @@
-from django.contrib import admin
-
 from areas.models import Area, AreaImage, Category, Comment
+from django.contrib import admin
 
 
 class AreaImageInline(admin.TabularInline):
