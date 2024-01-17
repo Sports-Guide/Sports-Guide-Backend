@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from areas.models import Area, AreaImage, Category, Comment
+from users.serializers import CustomUserSerializer
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -16,7 +17,7 @@ class AreaImageSerializer(serializers.ModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
-    author = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    author = CustomUserSerializer(default=serializers.CurrentUserDefault())
 
     class Meta:
         model = Comment
@@ -24,7 +25,7 @@ class CommentSerializer(serializers.ModelSerializer):
 
 
 class AreaSerializer(serializers.ModelSerializer):
-    author = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    author = CustomUserSerializer(default=serializers.CurrentUserDefault())
     images = AreaImageSerializer(
         many=True,
         read_only=True,
@@ -35,3 +36,11 @@ class AreaSerializer(serializers.ModelSerializer):
         model = Area
         fields = ('id', 'author', 'latitude',
                   'longitude', 'categories', 'images',)
+
+
+class AreaShortSerializer(serializers.ModelSerializer):
+    author = CustomUserSerializer()
+
+    class Meta:
+        model = Area
+        fields = ('id', 'author', 'latitude', 'longitude', 'categories')
