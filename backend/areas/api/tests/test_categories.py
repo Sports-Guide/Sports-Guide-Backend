@@ -34,7 +34,7 @@ class CategoryViewSetTestCase(APITestCase):
         Тест возможности создания категории администратором.
         """
         self.client.force_authenticate(user=self.admin_user)
-        data = {'name': 'New Category', 'description': 'New Description'}
+        data = {'name': 'New Category'}
         response = self.client.post(reverse('category-list'), data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
@@ -43,7 +43,7 @@ class CategoryViewSetTestCase(APITestCase):
         Тест невозможности создания категории обычным пользователем.
         """
         self.client.force_authenticate(user=self.user)
-        data = {'name': 'New Category', 'description': 'New Description'}
+        data = {'name': 'New Category'}
         response = self.client.post(reverse('category-list'), data)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
@@ -52,8 +52,7 @@ class CategoryViewSetTestCase(APITestCase):
         Тест возможности обновления категории администратором.
         """
         self.client.force_authenticate(user=self.admin_user)
-        data = {'name': 'Updated Category',
-                'description': 'Updated Description'}
+        data = {'name': 'Updated Category'}
         response = self.client.put(self.category_url, data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
@@ -62,8 +61,7 @@ class CategoryViewSetTestCase(APITestCase):
         Тест невозможности обновления категории обычным пользователем.
         """
         self.client.force_authenticate(user=self.user)
-        data = {'name': 'Updated Category',
-                'description': 'Updated Description'}
+        data = {'name': 'Updated Category'}
         response = self.client.put(self.category_url, data)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 

@@ -37,7 +37,6 @@ class AreaViewSetTestCase(APITestCase):
         self.client.force_authenticate(user=self.user)
         data = {
             'name': 'New Area',
-            'description': 'New Description',
             'latitude': 11.111111,
             'longitude': 11.111111,
             'categories': [self.category.id],
@@ -52,7 +51,6 @@ class AreaViewSetTestCase(APITestCase):
         self.client.force_authenticate(user=self.user)
         data = {
             'name': 'Updated Area',
-            'description': 'Updated Description',
             'latitude': 11.111111,
             'longitude': 11.111111,
             'categories': [self.category.id],
@@ -65,7 +63,7 @@ class AreaViewSetTestCase(APITestCase):
         Тест невозможности обновления площадки другим обычным пользователем.
         """
         self.client.force_authenticate(user=self.another_user)
-        data = {'name': 'Updated Area', 'description': 'Updated Description'}
+        data = {'name': 'Updated Area'}
         response = self.client.put(self.area_url, data)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
