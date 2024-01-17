@@ -10,13 +10,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-%=0v*@1#4zh9ptgdqac4&jth9(v8$2xfswzg6#t3@qy1g-sfxu'
+SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
 
-ALLOWED_HOSTS = ['*']
-
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost').split(', ')
+CSRF_TRUSTED_ORIGINS = ['https://sports-map.ru']
 
 AUTH_USER_MODEL = 'users.CustomUser'
 
