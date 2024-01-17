@@ -85,6 +85,7 @@ class Comment(models.Model):
     area = models.ForeignKey(
         Area,
         on_delete=models.CASCADE,
+        related_name='comments',
         verbose_name='площадка'
     )
     comment = models.TextField(verbose_name='комментарий')
