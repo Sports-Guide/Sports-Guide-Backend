@@ -4,7 +4,8 @@ from rest_framework.parsers import JSONParser, MultiPartParser
 from rest_framework.response import Response
 
 from areas.api.serializers import (AreaImageSerializer, AreaSerializer,
-                                   CategorySerializer, CommentSerializer)
+                                   AreaShortSerializer, CategorySerializer,
+                                   CommentSerializer)
 from areas.constants import ModerationStatus
 from areas.models import Area, Category, Comment
 
@@ -18,9 +19,15 @@ class CategoryViewSet(viewsets.ModelViewSet):
 
 
 class AreaViewSet(viewsets.ModelViewSet):
-    serializer_class = AreaSerializer
     permission_classes = (IsAuthorOrAdminOrReadOnly,)
     parser_classes = (MultiPartParser, JSONParser)
+
+    def get_serializer_class(self):
+        match self.action:
+            case 'list':
+                return AreaShortSerializer
+            case _:
+                return AreaSerializer
 
     def get_queryset(self):
         match self.action:
@@ -53,6 +60,13 @@ class AreaViewSet(viewsets.ModelViewSet):
                                 status=status.HTTP_400_BAD_REQUEST)
 
         return Response(response, status=status.HTTP_201_CREATED)
+
+    @action(detail=True, methods=['get'])
+    def comments(self, request, pk=None):
+        area = self.get_object()
+        comments = area.comments.all()
+        serializer = CommentSerializer(comments, many=True)
+        return Response(serializer.data)
 
 
 class CommentViewSet(viewsets.ModelViewSet):
