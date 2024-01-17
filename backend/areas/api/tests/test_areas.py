@@ -3,6 +3,7 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 
+from areas.constants import ModerationStatus
 from areas.factories import AreaFactory, CategoryFactory, UserFactory
 
 User = get_user_model()
@@ -18,8 +19,14 @@ class AreaViewSetTestCase(APITestCase):
             password='adminpassword'
         )
         self.category = CategoryFactory()
-        self.area = AreaFactory(author=self.user)
-        self.another_area = AreaFactory(author=self.another_user)
+        self.area = AreaFactory(
+            author=self.user,
+            moderation_status=ModerationStatus.APPROVED.value
+        )
+        self.another_area = AreaFactory(
+            author=self.another_user,
+            moderation_status=ModerationStatus.APPROVED.value
+        )
         self.area_url = reverse('area-detail', args=[self.area.id])
 
     def test_list_areas(self):

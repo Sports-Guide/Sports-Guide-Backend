@@ -15,6 +15,14 @@ class AreaImageSerializer(serializers.ModelSerializer):
         fields = ('id', 'image')
 
 
+class CommentSerializer(serializers.ModelSerializer):
+    author = serializers.HiddenField(default=serializers.CurrentUserDefault())
+
+    class Meta:
+        model = Comment
+        fields = ('id', 'author', 'area', 'comment', 'date_added')
+
+
 class AreaSerializer(serializers.ModelSerializer):
     author = serializers.HiddenField(default=serializers.CurrentUserDefault())
     images = AreaImageSerializer(
@@ -27,11 +35,3 @@ class AreaSerializer(serializers.ModelSerializer):
         model = Area
         fields = ('id', 'author', 'latitude',
                   'longitude', 'categories', 'images',)
-
-
-class CommentSerializer(serializers.ModelSerializer):
-    author = serializers.HiddenField(default=serializers.CurrentUserDefault())
-
-    class Meta:
-        model = Comment
-        fields = ('id', 'author', 'area', 'comment', 'date_added')
