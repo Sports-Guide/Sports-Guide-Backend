@@ -1,5 +1,6 @@
-from areas.api.views import AreaViewSet, CategoryViewSet, CommentViewSet
 from rest_framework.routers import DefaultRouter
+
+from areas.api.views import AreaViewSet, CategoryViewSet, CommentViewSet
 
 router = DefaultRouter()
 router.register(r'categories', CategoryViewSet, basename='category')
