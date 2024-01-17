@@ -3,7 +3,7 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-from areas.factories import AreaFactory, UserFactory
+from areas.factories import AreaFactory, CategoryFactory, UserFactory
 
 User = get_user_model()
 
@@ -17,6 +17,7 @@ class AreaViewSetTestCase(APITestCase):
             nickname='admin',
             password='adminpassword'
         )
+        self.category = CategoryFactory()
         self.area = AreaFactory(author=self.user)
         self.another_area = AreaFactory(author=self.another_user)
         self.area_url = reverse('area-detail', args=[self.area.id])
@@ -39,6 +40,7 @@ class AreaViewSetTestCase(APITestCase):
             'description': 'New Description',
             'latitude': 11.111111,
             'longitude': 11.111111,
+            'categories': [self.category.id],
         }
         response = self.client.post(reverse('area-list'), data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -53,6 +55,7 @@ class AreaViewSetTestCase(APITestCase):
             'description': 'Updated Description',
             'latitude': 11.111111,
             'longitude': 11.111111,
+            'categories': [self.category.id],
         }
         response = self.client.put(self.area_url, data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)

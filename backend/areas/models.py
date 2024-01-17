@@ -6,7 +6,6 @@ User = get_user_model()
 
 class Category(models.Model):
     name = models.CharField(max_length=255, verbose_name='название')
-    description = models.TextField(max_length=1000, verbose_name='описание')
 
     def __str__(self):
         return self.name
@@ -30,7 +29,6 @@ class Area(models.Model):
     )
     categories = models.ManyToManyField(
         Category,
-        blank=True,
         verbose_name='категории'
     )
     latitude = models.DecimalField(
@@ -53,7 +51,9 @@ class Area(models.Model):
         auto_now_add=True,
         verbose_name='дата добавления'
     )
-    description = models.TextField(max_length=1000, verbose_name='описание')
+
+    def __str__(self):
+        return f'Площадка №{self.id}'
 
     class Meta:
         verbose_name = 'площадка'

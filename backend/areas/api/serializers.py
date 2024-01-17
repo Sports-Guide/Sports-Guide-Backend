@@ -17,11 +17,16 @@ class AreaImageSerializer(serializers.ModelSerializer):
 
 class AreaSerializer(serializers.ModelSerializer):
     author = serializers.HiddenField(default=serializers.CurrentUserDefault())
-    images = AreaImageSerializer(many=True, read_only=True)
+    images = AreaImageSerializer(
+        many=True,
+        read_only=True,
+        source='areaimage_set'
+    )
 
     class Meta:
         model = Area
-        fields = '__all__'
+        fields = ('id', 'author', 'latitude',
+                  'longitude', 'categories', 'images',)
 
 
 class CommentSerializer(serializers.ModelSerializer):
