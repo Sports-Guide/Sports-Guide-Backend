@@ -21,7 +21,6 @@ class CategoryFactory(factory.django.DjangoModelFactory):
         model = Category
 
     name = factory.Sequence(lambda n: f'category{n}')
-    description = "Sample category description"
 
 
 class AreaFactory(factory.django.DjangoModelFactory):
@@ -32,7 +31,6 @@ class AreaFactory(factory.django.DjangoModelFactory):
     latitude = 55.7558
     longitude = 37.6173
     moderation_status = ModerationStatus.PENDING.value
-    description = "Sample area description"
 
 
 class CommentFactory(factory.django.DjangoModelFactory):

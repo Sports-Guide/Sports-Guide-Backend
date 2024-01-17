@@ -1,8 +1,8 @@
 from rest_framework import viewsets
 
-from areas.api.serializers import (AreaSerializer, CategorySerializer,
-                                   CommentSerializer)
-from areas.models import Area, Category, Comment
+from areas.api.serializers import (AreaImageSerializer, AreaSerializer,
+                                   CategorySerializer, CommentSerializer)
+from areas.models import Area, AreaImage, Category, Comment
 
 from .permissions import IsAdminOrReadOnly, IsAuthorOrAdminOrReadOnly
 
@@ -11,6 +11,11 @@ class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     permission_classes = (IsAdminOrReadOnly,)
+
+
+class AreaImageViewSet(viewsets.ModelViewSet):
+    queryset = AreaImage.objects.all()
+    serializer_class = AreaImageSerializer
 
 
 class AreaViewSet(viewsets.ModelViewSet):
