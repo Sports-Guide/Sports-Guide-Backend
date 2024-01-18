@@ -1,7 +1,6 @@
+from areas.models import Area, AreaImage, Category, Comment
 from rest_framework import serializers
 from users.serializers import CustomUserSerializer, CustomUserShortSerializer
-
-from areas.models import Area, AreaImage, Category, Comment
 
 
 class CategorySerializer(serializers.ModelSerializer):
