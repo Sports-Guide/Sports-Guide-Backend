@@ -12,6 +12,7 @@ from areas.models import Area, Category, Comment
 from .permissions import IsAdminOrReadOnly, IsAuthorOrAdminOrReadOnly
 from .pagination import CommentPaginator
 
+
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
