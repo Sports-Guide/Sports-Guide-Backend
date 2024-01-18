@@ -10,7 +10,7 @@ from areas.constants import ModerationStatus
 from areas.models import Area, Category, Comment
 
 from .permissions import IsAdminOrReadOnly, IsAuthorOrAdminOrReadOnly
-
+from .pagination import CommentPaginator
 
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
@@ -73,3 +73,4 @@ class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     permission_classes = (IsAuthorOrAdminOrReadOnly,)
+    pagination_class = CommentPaginator
