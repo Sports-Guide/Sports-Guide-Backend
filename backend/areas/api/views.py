@@ -1,16 +1,15 @@
-from rest_framework import status, viewsets
-from rest_framework.decorators import action
-from rest_framework.parsers import JSONParser, MultiPartParser
-from rest_framework.response import Response
-
 from areas.api.serializers import (AreaImageSerializer, AreaSerializer,
                                    AreaShortSerializer, CategorySerializer,
                                    CommentSerializer)
 from areas.constants import ModerationStatus
 from areas.models import Area, Category, Comment
+from rest_framework import status, viewsets
+from rest_framework.decorators import action
+from rest_framework.parsers import JSONParser, MultiPartParser
+from rest_framework.response import Response
 
-from .permissions import IsAdminOrReadOnly, IsAuthorOrAdminOrReadOnly
 from .pagination import CommentPaginator
+from .permissions import IsAdminOrReadOnly, IsAuthorOrAdminOrReadOnly
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
