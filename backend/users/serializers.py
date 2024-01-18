@@ -4,7 +4,13 @@ from djoser.serializers import UserSerializer
 User = get_user_model()
 
 
-class CustomUserSerializer(UserSerializer):
+class CustomUserShortSerializer(UserSerializer):
     class Meta:
         model = User
         fields = ('id', 'nickname', 'photo')
+
+
+class CustomUserSerializer(UserSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'nickname', 'email', 'photo')
