@@ -13,13 +13,13 @@ class CustomUserViewSet(UserViewSet):
     serializer_class = CustomUserSerializer
 
     def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
+        serializer = CustomUserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
         # Обработка фотографии
         photo_data = request.data.get("photo", None)
         if photo_data:
-            serializer.save(photo=photo_data)
+            serializer.save()
         else:
             # здесь будет логика генерации аватарки
             serializer.save()
