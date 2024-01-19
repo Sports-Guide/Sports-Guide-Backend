@@ -1,11 +1,13 @@
 import base64
 import io
+import os
 import random
 
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.files.base import ContentFile
 from djoser.serializers import UserCreateSerializer, UserSerializer
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageFont
 from rest_framework import serializers
 
 User = get_user_model()
@@ -45,15 +47,10 @@ class CustomUserCreateSerializer(UserCreateSerializer):
         # Создаем пользователя без поля photo
         user = super().create(validated_data)
 
-        # Если есть данные photo, устанавливаем их для пользователя
         if not photo_data:
-            print("нет фото, надо сделать!")
             photo_data = self.avatar_create(user)
-
-            # photo_data = self.avatar_create(nickname=user.nickname)
         user.photo = photo_data
         user.save()
-
         return user
 
     def avatar_create(self, user):
@@ -65,29 +62,41 @@ class CustomUserCreateSerializer(UserCreateSerializer):
         )
         # Задание размеров изображения
         image_size = (500, 500)
+
         # Создание изображения с рандомным фоновым цветом
         new_img = Image.new("RGB", image_size, random_color)
+
         # Создание объекта ImageDraw для рисования на изображении
         draw = ImageDraw.Draw(new_img)
+
+        # Задание размера шрифта и выбор шрифта
+        font_size = 100
+        # font = ImageFont.load_default()
+        # font_path = settings.STATIC_URL + "fonts/ComicScansMS3.ttf"
+        font_path = os.path.join(
+            settings.BASE_DIR,
+            # "static/fonts/ComicSansMS3.ttf",
+            "static/fonts/COMIC.TTF",
+        )
+        font = ImageFont.truetype(font_path, font_size)
+
+        # Определение координат для размещения текста
+        text_position = (200, 200)
+        text = user.nickname[0].upper()  # Получение первой буквы никнейма
+
         # Определение координат овала (левый верхний угол, правый нижний угол)
-        # oval_coords = [(100, 100), (400, 400)]
         oval_coords = [(0, 0), (500, 500)]
+
         # Рисование овала
         draw.ellipse(oval_coords, fill=random_color)
-        # Отображение изображения (необязательно)
-        # new_img.show()
-        # Применение маски к изображению
-        new_img = new_img.convert("RGBA")
-        mask = Image.new("L", image_size, 0)
-        mask_draw = ImageDraw.Draw(mask)
-        mask_draw.ellipse(oval_coords, fill=255)
-        new_img.putalpha(mask)
+
+        # Рисование текста
+        draw.text(text_position, text, font=font, fill="white")
 
         # Преобразование изображения в байты (можно использовать BytesIO)
         image_io = io.BytesIO()
         new_img.save(image_io, format="PNG")
         image_bytes = image_io.getvalue()
-        # print(image_bytes)
 
         # Преобразование байтов в строку base64
         image_base64 = base64.b64encode(image_bytes).decode("utf-8")
