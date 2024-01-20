@@ -3,12 +3,17 @@ from rest_framework.decorators import action
 from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
 
-from areas.api.serializers import (AreaImageSerializer, AreaSerializer,
-                                   AreaShortSerializer, CategorySerializer,
-                                   CommentSerializer)
+from areas.api.serializers import (
+    AreaImageSerializer,
+    AreaSerializer,
+    AreaShortSerializer,
+    CategorySerializer,
+    CommentSerializer,
+)
 from areas.constants import ModerationStatus
 from areas.models import Area, Category, Comment
 
+from .pagination import CommentPaginator
 from .permissions import IsAdminOrReadOnly, IsAuthorOrAdminOrReadOnly
 
 
@@ -72,3 +77,4 @@ class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     permission_classes = (IsAuthorOrAdminOrReadOnly,)
+    pagination_class = CommentPaginator
