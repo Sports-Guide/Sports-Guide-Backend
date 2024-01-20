@@ -142,7 +142,4 @@ DJOSER = {
         'user': 'users.serializers.CustomUserSerializer',
         'current_user': 'users.serializers.CustomUserSerializer',
     },
-    'VIEWS': {
-        'user': 'users.views.CustomUserViewSet',
-    },
 }
