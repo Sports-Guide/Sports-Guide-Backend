@@ -4,11 +4,8 @@ import os
 import random
 
 from django.conf import settings
-from django.contrib.auth import get_user_model
 from django.core.files.base import ContentFile
 from PIL import Image, ImageDraw, ImageFont
-
-User = get_user_model()
 
 
 def avatar_create(user):
