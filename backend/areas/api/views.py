@@ -1,6 +1,6 @@
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
-from rest_framework.parsers import JSONParser, MultiPartParser
+from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
 
 from areas.api.serializers import (AreaImageSerializer, AreaSerializer,
@@ -20,7 +20,6 @@ class CategoryViewSet(viewsets.ModelViewSet):
 
 class AreaViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthorOrAdminOrReadOnly,)
-    parser_classes = (MultiPartParser, JSONParser)
 
     def get_serializer_class(self):
         match self.action:
@@ -40,7 +39,7 @@ class AreaViewSet(viewsets.ModelViewSet):
             case _:
                 return Area.objects.all()
 
-    @action(detail=True, methods=['post'])
+    @action(detail=True, methods=['post'], parser_classes=[MultiPartParser])
     def add_images(self, request, pk=None):
         area = self.get_object()
         images_data = request.FILES.getlist('image')

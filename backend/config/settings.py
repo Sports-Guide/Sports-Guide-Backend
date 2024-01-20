@@ -32,7 +32,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'djoser',
-    'drf_spectacular',
     'users.apps.UsersConfig',
     'areas.apps.AreasConfig',
 ]
@@ -131,7 +130,6 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
-    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 SIMPLE_JWT = {
@@ -144,12 +142,7 @@ DJOSER = {
         'user': 'users.serializers.CustomUserSerializer',
         'current_user': 'users.serializers.CustomUserSerializer',
     },
-}
-
-SPECTACULAR_SETTINGS = {
-    'TITLE': 'Sports-Guide',
-    'DESCRIPTION': 'Your project description',
-    'VERSION': '1.0.0',
-    # 'SERVE_INCLUDE_SCHEMA': False,
-    # OTHER SETTINGS
+    'VIEWS': {
+        'user': 'users.views.CustomUserViewSet',
+    },
 }
