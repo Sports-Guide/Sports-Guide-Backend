@@ -1,3 +1,4 @@
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.parsers import MultiPartParser
@@ -13,6 +14,7 @@ from areas.api.serializers import (
 from areas.constants import ModerationStatus
 from areas.models import Area, Category, Comment
 
+from .filters import AreaFilter
 from .pagination import CommentPaginator
 from .permissions import IsAdminOrReadOnly, IsAuthorOrAdminOrReadOnly
 
@@ -25,6 +27,9 @@ class CategoryViewSet(viewsets.ModelViewSet):
 
 class AreaViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthorOrAdminOrReadOnly,)
+    filter_backends = (DjangoFilterBackend,)
+    filterset_fields = ('categories__slug',)
+    filterset_class = AreaFilter
 
     def get_serializer_class(self):
         match self.action:
