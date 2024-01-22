@@ -25,7 +25,7 @@ def avatar_create(user):
     image_size = (300, 300)
 
     # Создание изображения с рандомным фоновым цветом
-    new_img = Image.new("RGB", image_size, random_color)
+    new_img = Image.new('RGB', image_size, random_color)
 
     # Создание объекта ImageDraw для рисования на изображении
     draw = ImageDraw.Draw(new_img)
@@ -34,7 +34,7 @@ def avatar_create(user):
     font_size = 120
     font_path = os.path.join(
         settings.BASE_DIR,
-        "static/fonts/COMIC.TTF",
+        'static/fonts/COMIC.TTF',
     )
     font = ImageFont.truetype(font_path, font_size)
     text = user.nickname[0].upper()
@@ -47,17 +47,17 @@ def avatar_create(user):
     )
 
     # Рисование текста
-    draw.text((text_position[0], 65), text, font=font, fill="white")
+    draw.text((text_position[0], 65), text, font=font, fill='white')
 
     # Преобразование изображения в байты (можно использовать BytesIO)
     image_io = io.BytesIO()
-    new_img.save(image_io, format="PNG")
+    new_img.save(image_io, format='PNG')
     image_bytes = image_io.getvalue()
 
     # Преобразование байтов в строку base64
-    image_base64 = base64.b64encode(image_bytes).decode("utf-8")
+    image_base64 = base64.b64encode(image_bytes).decode('utf-8')
     content_file = ContentFile(
-        base64.b64decode(image_base64), name=f"{user.nickname}_avatar.png"
+        base64.b64decode(image_base64), name=f'{user.nickname}_avatar.png'
     )
     return content_file
 

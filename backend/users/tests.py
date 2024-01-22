@@ -9,9 +9,9 @@ User = get_user_model()
 class CustomUserTests(APITestCase):
     def setUp(self):
         self.user = User.objects.create_user(
-            email="test@example.com",
-            nickname="testnick",
-            password="testpass123"
+            email='test@example.com',
+            nickname='testnick',
+            password='testpass123'
         )
 
     def test_user_registration(self):
