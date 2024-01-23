@@ -34,7 +34,7 @@ class CategoryViewSetTestCase(APITestCase):
         Тест возможности создания категории администратором.
         """
         self.client.force_authenticate(user=self.admin_user)
-        data = {'name': 'New Category'}
+        data = {'name': 'New', 'slug': 'New'}
         response = self.client.post(reverse('category-list'), data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
@@ -52,7 +52,7 @@ class CategoryViewSetTestCase(APITestCase):
         Тест возможности обновления категории администратором.
         """
         self.client.force_authenticate(user=self.admin_user)
-        data = {'name': 'Updated Category'}
+        data = {'name': 'New', 'slug': 'New'}
         response = self.client.put(self.category_url, data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 

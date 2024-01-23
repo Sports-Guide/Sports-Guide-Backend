@@ -286,6 +286,71 @@
   }
 },
 {
+  "model": "admin.logentry",
+  "pk": 23,
+  "fields": {
+    "action_time": "2024-01-23T11:04:45.988Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "4",
+    "object_repr": "тренажерные площадки",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"\\u041d\\u0430\\u0437\\u0432\\u0430\\u043d\\u0438\\u0435\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 24,
+  "fields": {
+    "action_time": "2024-01-23T11:20:06.635Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "2",
+    "object_repr": "каток",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"\\u0423\\u043d\\u0438\\u043a\\u0430\\u043b\\u044c\\u043d\\u044b\\u0439 \\u0442\\u0435\\u0433\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 25,
+  "fields": {
+    "action_time": "2024-01-23T11:21:06.750Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "4",
+    "object_repr": "тренажеры",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"\\u041d\\u0430\\u0437\\u0432\\u0430\\u043d\\u0438\\u0435\", \"\\u0423\\u043d\\u0438\\u043a\\u0430\\u043b\\u044c\\u043d\\u044b\\u0439 \\u0442\\u0435\\u0433\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 26,
+  "fields": {
+    "action_time": "2024-01-23T11:21:31.431Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "1",
+    "object_repr": "футбол",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"\\u0423\\u043d\\u0438\\u043a\\u0430\\u043b\\u044c\\u043d\\u044b\\u0439 \\u0442\\u0435\\u0433\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 27,
+  "fields": {
+    "action_time": "2024-01-23T11:21:47.234Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "3",
+    "object_repr": "волейбол",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"\\u0423\\u043d\\u0438\\u043a\\u0430\\u043b\\u044c\\u043d\\u044b\\u0439 \\u0442\\u0435\\u0433\"]}}]"
+  }
+},
+{
   "model": "auth.group",
   "pk": 1,
   "fields": {
@@ -419,7 +484,7 @@
   "pk": 1,
   "fields": {
     "name": "футбол",
-    "slug": "football"
+    "slug": "futbol"
   }
 },
 {
@@ -427,7 +492,7 @@
   "pk": 2,
   "fields": {
     "name": "каток",
-    "slug": "ice_rink"
+    "slug": "katok"
   }
 },
 {
@@ -435,7 +500,7 @@
   "pk": 3,
   "fields": {
     "name": "волейбол",
-    "slug": "volleyball"
+    "slug": "volejbol"
   }
 },
 {
@@ -443,7 +508,7 @@
   "pk": 4,
   "fields": {
     "name": "тренажеры",
-    "slug": "fitness_equipment"
+    "slug": "trenazhery"
   }
 },
 {
