@@ -17,7 +17,7 @@ DEBUG = os.getenv('DEBUG', 'True').lower() == 'true'
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '127.0.0.1').split(', ')
 
 CSRF_TRUSTED_ORIGINS = ['https://sports-map.ru']
-
+CORS_ALLOW_ALL_ORIGINS = True
 AUTH_USER_MODEL = 'users.CustomUser'
 
 # Application definition
@@ -41,6 +41,7 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
