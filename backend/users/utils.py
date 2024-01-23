@@ -9,7 +9,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 
 def avatar_create(user):
-    """'Метод для создание изображения."""
+    """Метод для создания изображения."""
     color_list = [
         (0, 215, 56),
         (0, 213, 175),
@@ -65,4 +65,4 @@ def avatar_create(user):
 def text_size(text, font):
     width = font.getmask(text).getbbox()[2]
     height = font.getmask(text).getbbox()[3]
-    return (width, height)
+    return width, height

@@ -33,7 +33,6 @@ INSTALLED_APPS = [
     'djoser',
     'users.apps.UsersConfig',
     'areas.apps.AreasConfig',
-    'sorl.thumbnail',
 ]
 
 MIDDLEWARE = [
