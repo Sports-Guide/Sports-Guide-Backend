@@ -8,6 +8,6 @@ class AreaFilter(filters.FilterSet):
 
     categories = filters.ModelMultipleChoiceFilter(
         queryset=Category.objects.all(),
-        field_name='categories__name',
-        to_field_name='name',
+        field_name='categories__slug',
+        to_field_name='slug',
     )
