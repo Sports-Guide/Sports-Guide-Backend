@@ -351,6 +351,32 @@
   }
 },
 {
+  "model": "admin.logentry",
+  "pk": 28,
+  "fields": {
+    "action_time": "2024-01-24T08:01:02.797Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "5",
+    "object_repr": "баскетбол",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 29,
+  "fields": {
+    "action_time": "2024-01-24T08:02:33.400Z",
+    "user": 1,
+    "content_type": 10,
+    "object_id": "4",
+    "object_repr": "Площадка №4",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
   "model": "auth.group",
   "pk": 1,
   "fields": {
@@ -512,6 +538,14 @@
   }
 },
 {
+  "model": "areas.category",
+  "pk": 5,
+  "fields": {
+    "name": "баскетбол",
+    "slug": "basketbol"
+  }
+},
+{
   "model": "areas.area",
   "pk": 1,
   "fields": {
@@ -550,6 +584,21 @@
     "date_added": "2024-01-19T09:49:59.867Z",
     "categories": [
       4
+    ]
+  }
+},
+{
+  "model": "areas.area",
+  "pk": 4,
+  "fields": {
+    "author": 3,
+    "latitude": "55.841787",
+    "longitude": "37.509379",
+    "moderation_status": "approved",
+    "date_added": "2024-01-24T08:02:33.398Z",
+    "categories": [
+      1,
+      5
     ]
   }
 },
