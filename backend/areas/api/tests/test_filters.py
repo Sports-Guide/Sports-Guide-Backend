@@ -41,7 +41,7 @@ class AreaFilterTestCase(APITestCase):
     def test_filter_by_nonexistent_category(self):
         url = reverse('area-list')
         response = self.client.get(url, {'categories': 'nonexistent-category'})
-        self.assertEqual(len(response.data), 0)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_filter_by_multiple_categories(self):
         url = reverse('area-list')
@@ -50,5 +50,6 @@ class AreaFilterTestCase(APITestCase):
             {'categories': [self.category1.slug, self.category2.slug]}
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 1)
-        self.assertEqual(response.data[0]['id'], self.area2.id)
+        self.assertEqual(len(response.data), 3)
+        self.assertEqual(response.data[1]['id'], self.area2.id)
+        self.assertEqual(response.data[0]['id'], self.area1.id)
