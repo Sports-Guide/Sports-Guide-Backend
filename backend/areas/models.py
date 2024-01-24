@@ -6,7 +6,9 @@ User = get_user_model()
 
 class Category(models.Model):
     name = models.CharField(max_length=255, verbose_name='название')
-    description = models.TextField(max_length=1000, verbose_name='описание')
+
+    def __str__(self):
+        return self.name
 
     class Meta:
         verbose_name = 'категория'
@@ -15,6 +17,7 @@ class Category(models.Model):
 
 class Area(models.Model):
     MODERATION_STATUS_CHOICES = [
+        ('rejected', 'Отклонено'),
         ('pending', 'На рассмотрении'),
         ('approved', 'Одобрено'),
     ]
@@ -26,7 +29,6 @@ class Area(models.Model):
     )
     categories = models.ManyToManyField(
         Category,
-        blank=True,
         verbose_name='категории'
     )
     latitude = models.DecimalField(
@@ -49,7 +51,9 @@ class Area(models.Model):
         auto_now_add=True,
         verbose_name='дата добавления'
     )
-    description = models.TextField(max_length=1000, verbose_name='описание')
+
+    def __str__(self):
+        return f'Площадка №{self.id}'
 
     class Meta:
         verbose_name = 'площадка'
@@ -76,11 +80,12 @@ class Comment(models.Model):
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        verbose_name='авто'
+        verbose_name='автор'
     )
     area = models.ForeignKey(
         Area,
         on_delete=models.CASCADE,
+        related_name='comments',
         verbose_name='площадка'
     )
     comment = models.TextField(verbose_name='комментарий')
@@ -90,5 +95,6 @@ class Comment(models.Model):
     )
 
     class Meta:
+        ordering = ['-date_added']
         verbose_name = 'комментарий'
         verbose_name_plural = 'комментарии'
