@@ -18,6 +18,7 @@ factory-boy = "^3.3.0"
 pyyaml = "^6.0.1"
 uritemplate = "^4.1.1"
 django-filter = "^23.5"
+django-cors-headers = "^4.3.1"
 
 
 [build-system]

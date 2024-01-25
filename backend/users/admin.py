@@ -5,4 +5,17 @@ from .models import CustomUser
 
 @admin.register(CustomUser)
 class CustomUserAdmin(admin.ModelAdmin):
-    pass
+    list_display = (
+        'id',
+        'email',
+        'nickname',
+        'photo',
+        'is_staff',
+        'is_active',
+        'date_joined',
+    )
+    search_fields = (
+        'email',
+        'nickname',
+    )
+    empty_value_display = '-пусто-'
