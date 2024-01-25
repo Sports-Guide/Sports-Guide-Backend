@@ -21,6 +21,7 @@ class CategoryFactory(factory.django.DjangoModelFactory):
         model = Category
 
     name = factory.Sequence(lambda n: f'category{n}')
+    slug = factory.LazyAttribute(lambda obj: f'slug-{obj.name}')
 
 
 class AreaFactory(factory.django.DjangoModelFactory):

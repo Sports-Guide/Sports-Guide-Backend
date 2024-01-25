@@ -20,6 +20,7 @@ class AreaAdmin(admin.ModelAdmin):
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('name',)
     search_fields = ('name',)
+    prepopulated_fields = {"slug": ["name"]}
 
 
 @admin.register(Comment)

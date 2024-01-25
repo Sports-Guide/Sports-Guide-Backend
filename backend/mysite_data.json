@@ -234,6 +234,149 @@
   }
 },
 {
+  "model": "admin.logentry",
+  "pk": 19,
+  "fields": {
+    "action_time": "2024-01-22T15:50:43.016Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "4",
+    "object_repr": "fitness_equipment",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"\\u0423\\u043d\\u0438\\u043a\\u0430\\u043b\\u044c\\u043d\\u044b\\u0439 \\u0442\\u0435\\u0433\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 20,
+  "fields": {
+    "action_time": "2024-01-22T15:51:46.301Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "3",
+    "object_repr": "volleyball",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"\\u0423\\u043d\\u0438\\u043a\\u0430\\u043b\\u044c\\u043d\\u044b\\u0439 \\u0442\\u0435\\u0433\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 21,
+  "fields": {
+    "action_time": "2024-01-22T15:52:22.822Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "2",
+    "object_repr": "ice_rink",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"\\u0423\\u043d\\u0438\\u043a\\u0430\\u043b\\u044c\\u043d\\u044b\\u0439 \\u0442\\u0435\\u0433\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 22,
+  "fields": {
+    "action_time": "2024-01-22T15:52:42.862Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "1",
+    "object_repr": "football",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"\\u0423\\u043d\\u0438\\u043a\\u0430\\u043b\\u044c\\u043d\\u044b\\u0439 \\u0442\\u0435\\u0433\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 23,
+  "fields": {
+    "action_time": "2024-01-23T11:04:45.988Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "4",
+    "object_repr": "тренажерные площадки",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"\\u041d\\u0430\\u0437\\u0432\\u0430\\u043d\\u0438\\u0435\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 24,
+  "fields": {
+    "action_time": "2024-01-23T11:20:06.635Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "2",
+    "object_repr": "каток",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"\\u0423\\u043d\\u0438\\u043a\\u0430\\u043b\\u044c\\u043d\\u044b\\u0439 \\u0442\\u0435\\u0433\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 25,
+  "fields": {
+    "action_time": "2024-01-23T11:21:06.750Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "4",
+    "object_repr": "тренажеры",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"\\u041d\\u0430\\u0437\\u0432\\u0430\\u043d\\u0438\\u0435\", \"\\u0423\\u043d\\u0438\\u043a\\u0430\\u043b\\u044c\\u043d\\u044b\\u0439 \\u0442\\u0435\\u0433\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 26,
+  "fields": {
+    "action_time": "2024-01-23T11:21:31.431Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "1",
+    "object_repr": "футбол",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"\\u0423\\u043d\\u0438\\u043a\\u0430\\u043b\\u044c\\u043d\\u044b\\u0439 \\u0442\\u0435\\u0433\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 27,
+  "fields": {
+    "action_time": "2024-01-23T11:21:47.234Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "3",
+    "object_repr": "волейбол",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"\\u0423\\u043d\\u0438\\u043a\\u0430\\u043b\\u044c\\u043d\\u044b\\u0439 \\u0442\\u0435\\u0433\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 28,
+  "fields": {
+    "action_time": "2024-01-24T08:01:02.797Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "5",
+    "object_repr": "баскетбол",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 29,
+  "fields": {
+    "action_time": "2024-01-24T08:02:33.400Z",
+    "user": 1,
+    "content_type": 10,
+    "object_id": "4",
+    "object_repr": "Площадка №4",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
   "model": "auth.group",
   "pk": 1,
   "fields": {
@@ -252,6 +395,14 @@
   "fields": {
     "session_data": ".eJxVjE0OwiAYBe_C2hBaKAWX7j0D-f6QqqFJaVfGu2uTLnT7Zua9VIJtLWlrsqSJ1Vl16vS7IdBD6g74DvU2a5rrukyod0UftOnrzPK8HO7fQYFWvjUYYDcaRktm4CCEmMnZIUQi8hBGG2yO0ZL0USx5dhl78QzBUxcMqPcHD2s49g:1rQkN8:E-87yrkkVfGUMczjVu3Kv4r5kKkrjmqG8udGCXBOjDo",
     "expire_date": "2024-02-02T08:37:06.843Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "9gfdf0ivrt3phuxafgqeofjeuf5pmbsh",
+  "fields": {
+    "session_data": ".eJxVjE0OwiAYBe_C2hBaKAWX7j0D-f6QqqFJaVfGu2uTLnT7Zua9VIJtLWlrsqSJ1Vl16vS7IdBD6g74DvU2a5rrukyod0UftOnrzPK8HO7fQYFWvjUYYDcaRktm4CCEmMnZIUQi8hBGG2yO0ZL0USx5dhl78QzBUxcMqPcHD2s49g:1rRwXr:rYfvx53HenIa1YwVhoRc6G43UeV8MCDGZIFdMjr_BFI",
+    "expire_date": "2024-02-05T15:49:07.119Z"
   }
 },
 {
@@ -291,7 +442,7 @@
   "pk": 1,
   "fields": {
     "password": "pbkdf2_sha256$600000$gcaYeaZjWrWAlh6N9oZuVH$9bIv7DU2hTgDLfM+6LMRZsz24jEsHfcii5rbh9vj4Y8=",
-    "last_login": "2024-01-19T08:37:06.839Z",
+    "last_login": "2024-01-22T15:49:07.115Z",
     "is_superuser": true,
     "email": "admin@admin.ru",
     "nickname": "admin1",
@@ -358,28 +509,40 @@
   "model": "areas.category",
   "pk": 1,
   "fields": {
-    "name": "футбол"
+    "name": "футбол",
+    "slug": "futbol"
   }
 },
 {
   "model": "areas.category",
   "pk": 2,
   "fields": {
-    "name": "каток"
+    "name": "каток",
+    "slug": "katok"
   }
 },
 {
   "model": "areas.category",
   "pk": 3,
   "fields": {
-    "name": "волейбол"
+    "name": "волейбол",
+    "slug": "volejbol"
   }
 },
 {
   "model": "areas.category",
   "pk": 4,
   "fields": {
-    "name": "тренажеры"
+    "name": "тренажеры",
+    "slug": "trenazhery"
+  }
+},
+{
+  "model": "areas.category",
+  "pk": 5,
+  "fields": {
+    "name": "баскетбол",
+    "slug": "basketbol"
   }
 },
 {
@@ -421,6 +584,21 @@
     "date_added": "2024-01-19T09:49:59.867Z",
     "categories": [
       4
+    ]
+  }
+},
+{
+  "model": "areas.area",
+  "pk": 4,
+  "fields": {
+    "author": 3,
+    "latitude": "55.841787",
+    "longitude": "37.509379",
+    "moderation_status": "approved",
+    "date_added": "2024-01-24T08:02:33.398Z",
+    "categories": [
+      1,
+      5
     ]
   }
 },
