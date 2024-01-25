@@ -2,9 +2,9 @@ import io
 import os
 import random
 
+from PIL import Image, ImageDraw, ImageFont
 from django.conf import settings
 from django.core.files.base import ContentFile
-from PIL import Image, ImageDraw, ImageFont
 
 
 def avatar_create(nickname):

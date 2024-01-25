@@ -13,7 +13,6 @@ class CustomUserAdmin(admin.ModelAdmin):
         'is_staff',
         'is_active',
         'date_joined',
-        'password',
     )
     search_fields = (
         'email',

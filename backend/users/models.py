@@ -18,7 +18,7 @@ class CustomUserManager(BaseUserManager):
     def create_superuser(self, email, password=None, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
-        extra_fields.setdefault("is_active", True)
+        extra_fields.setdefault('is_active', True)
 
         if extra_fields.get('is_staff') is not True:
             raise ValueError('Superuser must have is_staff=True.')
@@ -41,7 +41,9 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         verbose_name='никнейм',
     )
     photo = models.ImageField(
-        upload_to='users_photos/', blank=True, null=True, verbose_name='аватар'
+        upload_to='users_photos/',
+        blank=True, null=True,
+        verbose_name='аватар',
     )
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
@@ -51,6 +53,10 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['nickname']
+
+    class Meta:
+        verbose_name = 'Пользователь'
+        verbose_name_plural = 'Пользователи'
 
     def __str__(self):
         return self.nickname
