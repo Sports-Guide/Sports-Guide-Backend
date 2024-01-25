@@ -32,19 +32,18 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(
         max_length=254,
         unique=True,
-        verbose_name='email'
+        verbose_name='email',
     )
     nickname = models.SlugField(
         max_length=20,
         unique=True,
-        validators=[MinLengthValidator(6)],
-        verbose_name='никнейм'
+        validators=[MinLengthValidator(3)],
+        verbose_name='никнейм',
     )
     photo = models.ImageField(
         upload_to='users_photos/',
-        blank=True,
-        null=True,
-        verbose_name='аватар'
+        blank=True, null=True,
+        verbose_name='аватар',
     )
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
@@ -54,6 +53,10 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['nickname']
+
+    class Meta:
+        verbose_name = 'Пользователь'
+        verbose_name_plural = 'Пользователи'
 
     def __str__(self):
         return self.nickname
