@@ -1,4 +1,3 @@
-import base64
 import io
 import os
 import random
@@ -8,7 +7,7 @@ from django.core.files.base import ContentFile
 from PIL import Image, ImageDraw, ImageFont
 
 
-def avatar_create(user):
+def avatar_create(nickname):
     """Метод для создания изображения."""
     color_list = [
         (0, 215, 56),
@@ -22,7 +21,7 @@ def avatar_create(user):
 
     random_color = random.choice(color_list)
     # Задание размеров изображения
-    image_size = (300, 300)
+    image_size = (200, 200)
 
     # Создание изображения с рандомным фоновым цветом
     new_img = Image.new('RGB', image_size, random_color)
@@ -37,32 +36,15 @@ def avatar_create(user):
         'static/fonts/COMIC.TTF',
     )
     font = ImageFont.truetype(font_path, font_size)
-    text = user.nickname[0].upper()
-
-    # Определение координат для размещения текста в центре
-    text_width, text_height = text_size(text, font)
-    text_position = (
-        (image_size[0] - text_width) // 2,
-        (image_size[1] - text_height) // 2,
-    )
+    text = nickname[0].upper()
 
     # Рисование текста
-    draw.text((text_position[0], 65), text, font=font, fill='white')
+    draw.text((55, 10), text, font=font, fill='white')
 
     # Преобразование изображения в байты (можно использовать BytesIO)
     image_io = io.BytesIO()
     new_img.save(image_io, format='PNG')
     image_bytes = image_io.getvalue()
 
-    # Преобразование байтов в строку base64
-    image_base64 = base64.b64encode(image_bytes).decode('utf-8')
-    content_file = ContentFile(
-        base64.b64decode(image_base64), name=f'{user.nickname}_avatar.png'
-    )
+    content_file = ContentFile(image_bytes, name=f'{nickname}_avatar.png')
     return content_file
-
-
-def text_size(text, font):
-    width = font.getmask(text).getbbox()[2]
-    height = font.getmask(text).getbbox()[3]
-    return width, height

@@ -1,3 +1,5 @@
+import os
+
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 from rest_framework import status
@@ -13,6 +15,12 @@ class CustomUserTests(APITestCase):
             nickname='testnick',
             password='testpass123'
         )
+
+    def tearDown(self):
+        for user in User.objects.all():
+            if user.photo and os.path.isfile(user.photo.path):
+                os.remove(user.photo.path)
+            user.delete()
 
     def test_user_registration(self):
         """

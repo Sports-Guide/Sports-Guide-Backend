@@ -160,3 +160,5 @@ cython_debug/
 .idea/
 .vscode/
 backend/media
+backend/static/*
+!static/fonts/
