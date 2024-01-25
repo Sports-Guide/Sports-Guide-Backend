@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from areas.models import Area, AreaImage, Category, Comment
-from users.serializers import CustomUserSerializer
+from users.serializers import CustomUserSerializer, CustomUserShortSerializer
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -17,7 +17,9 @@ class AreaImageSerializer(serializers.ModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
-    author = CustomUserSerializer(default=serializers.CurrentUserDefault())
+    author = CustomUserShortSerializer(
+        default=serializers.CurrentUserDefault()
+    )
 
     class Meta:
         model = Comment

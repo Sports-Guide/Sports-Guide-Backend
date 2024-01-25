@@ -1,5 +1,5 @@
-import factory
 from django.contrib.auth import get_user_model
+import factory
 
 from .constants import ModerationStatus
 from .models import Area, Category, Comment
