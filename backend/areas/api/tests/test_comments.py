@@ -71,3 +71,13 @@ class CommentViewSetTestCase(APITestCase):
         self.client.force_authenticate(user=self.another_user)
         response = self.client.delete(self.comment_url)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_get_comments_for_specific_area(self):
+        """
+        Тест возможности получения комментариев к площадке.
+        """
+        response = self.client.get(reverse('area-comments',
+                                           args=[self.area.id]))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertIsInstance(response.data, list,
+                              'Неправильный тип данных. Должен быть список.')
