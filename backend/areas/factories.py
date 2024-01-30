@@ -40,17 +40,13 @@ class AreaFactory(factory.django.DjangoModelFactory):
     @factory.post_generation
     def categories(self, create, extracted, **kwargs):
         if not create:
-            # Если мы используем 'build' вместо 'create'
             return
 
         if extracted:
-            # Если переданы конкретные категории при создании объекта
             for category in extracted:
                 self.categories.add(category)
         else:
-            # Добавляем случайное количество категорий
-            num_categories = random.randint(1,
-                                            5)  # Например, от 1 до 5 категорий
+            num_categories = random.randint(1, 5)
             categories = CategoryFactory.create_batch(num_categories)
             for category in categories:
                 self.categories.add(category)
