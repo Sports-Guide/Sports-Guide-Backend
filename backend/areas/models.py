@@ -6,6 +6,11 @@ User = get_user_model()
 
 class Category(models.Model):
     name = models.CharField(max_length=255, verbose_name='название')
+    slug = models.SlugField(
+        max_length=255,
+        unique=True,
+        verbose_name='уникальный тег',
+    )
 
     def __str__(self):
         return self.name
@@ -29,6 +34,7 @@ class Area(models.Model):
     )
     categories = models.ManyToManyField(
         Category,
+        related_name='areas',
         verbose_name='категории'
     )
     latitude = models.DecimalField(
