@@ -16,7 +16,7 @@ DEBUG = os.getenv('DEBUG', 'True').lower() == 'true'
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '127.0.0.1').split(', ')
 
-CSRF_TRUSTED_ORIGINS = ['https://sports-map.ru']
+CSRF_TRUSTED_ORIGINS = ['https://sports-map.ru', 'http://193.107.239.81:8000']
 CORS_ALLOW_ALL_ORIGINS = True
 AUTH_USER_MODEL = 'users.CustomUser'
 

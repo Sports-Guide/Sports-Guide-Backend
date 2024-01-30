@@ -40,9 +40,16 @@ class AreaSerializer(serializers.ModelSerializer):
                   'longitude', 'categories', 'images',)
 
 
-class AreaShortSerializer(serializers.ModelSerializer):
+class AreaReadSerializer(serializers.ModelSerializer):
     author = CustomUserSerializer()
+    categories = CategorySerializer(many=True)
+    images = AreaImageSerializer(
+        many=True,
+        read_only=True,
+        source='areaimage_set'
+    )
 
     class Meta:
         model = Area
-        fields = ('id', 'author', 'latitude', 'longitude', 'categories')
+        fields = ('id', 'author', 'latitude',
+                  'longitude', 'categories', 'images')
