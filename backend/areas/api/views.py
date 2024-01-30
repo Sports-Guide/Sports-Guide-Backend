@@ -6,8 +6,8 @@ from rest_framework.response import Response
 
 from areas.api.serializers import (
     AreaImageSerializer,
+    AreaReadSerializer,
     AreaSerializer,
-    AreaShortSerializer,
     CategorySerializer,
     CommentSerializer,
 )
@@ -33,8 +33,8 @@ class AreaViewSet(viewsets.ModelViewSet):
 
     def get_serializer_class(self):
         match self.action:
-            case 'list':
-                return AreaShortSerializer
+            case 'list' | 'retrieve':
+                return AreaReadSerializer
             case _:
                 return AreaSerializer
 
