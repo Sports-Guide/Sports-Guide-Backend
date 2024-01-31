@@ -76,7 +76,7 @@ class CustomUserTests(APITestCase):
         """
         Тест валидации пароля без символов в верхнем регистре через API.
         """
-        url = reverse('users:users-list')
+        url = reverse('users:customuser-list')
         data = {
             'email': 'user@example.com',
             'nickname': 'usernick',
