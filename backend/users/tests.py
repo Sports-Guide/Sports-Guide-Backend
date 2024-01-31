@@ -5,19 +5,19 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-User = get_user_model()
+from users.models import CustomUser
 
 
 class CustomUserTests(APITestCase):
     def setUp(self):
-        self.user = User.objects.create_user(
+        self.user = CustomUser.objects.create_user(
             email='test@example.com',
             nickname='testnick',
             password='testpass123'
         )
 
     def tearDown(self):
-        for user in User.objects.all():
+        for user in CustomUser.objects.all():
             if user.photo and os.path.isfile(user.photo.path):
                 os.remove(user.photo.path)
             user.delete()
@@ -26,7 +26,7 @@ class CustomUserTests(APITestCase):
         """
         Тестирование регистрации пользователя.
         """
-        url = reverse('customuser-list')
+        url = reverse('users:customuser-list')
         data = {
             'email': 'user@example.com',
             'nickname': 'nickname',
@@ -39,7 +39,7 @@ class CustomUserTests(APITestCase):
         """
         Тестирование входа в систему и получения токена.
         """
-        url = reverse('jwt-create')
+        url = reverse('users:jwt-create')
         data = {'email': 'test@example.com', 'password': 'testpass123'}
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -49,12 +49,12 @@ class CustomUserTests(APITestCase):
         """
         Тестирование обновления токена.
         """
-        url = reverse('jwt-create')
+        url = reverse('users:jwt-create')
         data = {'email': 'test@example.com', 'password': 'testpass123'}
         response = self.client.post(url, data)
         refresh_token = response.data['refresh']
 
-        url = reverse('jwt-refresh')
+        url = reverse('users:jwt-refresh')
         data = {'refresh': refresh_token}
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -64,7 +64,7 @@ class CustomUserTests(APITestCase):
         """
         Тест валидации пароля без символов в нижнем регистре через API.
         """
-        url = reverse('customuser-list')
+        url = reverse('users:customuser-list')
         data = {
             'email': 'user@example.com',
             'nickname': 'usernick',
@@ -77,7 +77,7 @@ class CustomUserTests(APITestCase):
         """
         Тест валидации пароля без символов в верхнем регистре через API.
         """
-        url = reverse('customuser-list')
+        url = reverse('users:users-list')
         data = {
             'email': 'user@example.com',
             'nickname': 'usernick',
@@ -90,7 +90,7 @@ class CustomUserTests(APITestCase):
         """
         Тест валидации пароля с не латинскими символами через API.
         """
-        url = reverse('customuser-list')
+        url = reverse('users:customuser-list')
         data = {
             'email': 'user@example.com',
             'nickname': 'usernick',
@@ -103,7 +103,7 @@ class CustomUserTests(APITestCase):
         """
         Тест валидации корректного пароля через API.
         """
-        url = reverse('customuser-list')
+        url = reverse('users:customuser-list')
         data = {
             'email': 'user@example.com',
             'nickname': 'usernick',
