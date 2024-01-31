@@ -7,8 +7,8 @@ from rest_framework.response import Response
 from users.models import CustomUser
 from users.serializers import (
     CustomUserCreateSerializer,
-    CustomUserSerializer,
     CustomUserPhotoSerializer,
+    CustomUserSerializer,
     CustomUserShortSerializer,
 )
 
