@@ -1,5 +1,7 @@
+from io import BytesIO
 import os
 
+from PIL import Image
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
@@ -110,3 +112,74 @@ class CustomUserTests(APITestCase):
         }
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    @staticmethod
+    def get_photo():
+        """
+        Функция генерации фотографии.
+        """
+        file = BytesIO()
+        image = Image.new('RGBA', size=(100, 100), color=(155, 0, 0))
+        image.save(file, 'png')
+        file.name = 'test_photo.png'
+        file.seek(0)
+        return file
+
+    def test_add_photo_correctly(self):
+        """
+        Тестирование загрузки фотографии пользователя.
+
+        """
+        self.client.force_authenticate(user=self.user)
+        self.photo = self.get_photo()
+        payload = {
+            "photo": self.photo
+        }
+        response = self.client.post(
+            reverse(
+                'users:customuser-upload-photo',
+                kwargs={'id': self.user.id}
+            ),
+            data=payload,
+            format='multipart')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertTrue('photo' in response.data[0])
+        self.assertIsNotNone(response.data[0]['photo'])
+        self.user.refresh_from_db(fields=['photo'])
+        self.assertTrue(self.user.photo)
+
+    def test_non_owner_cannot_add_photo(self):
+        """
+        Тест невозможности добавления фото не владельцем аккаунта.
+        """
+        self.user2 = CustomUser.objects.create_user(
+            email='user2@example.com',
+            password='password'
+        )
+        self.client.force_authenticate(user=self.user2)
+        self.photo = self.get_photo()
+        payload = {
+            "photo": self.photo
+        }
+        response = self.client.post(
+            reverse(
+                'users:customuser-upload-photo',
+                kwargs={'id': self.user.id}
+            ),
+            data=payload,
+            format='multipart')
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_upload_photo_without_photo(self):
+        """
+        Тест обработки запроса без передачи фото.
+        """
+        self.client.force_authenticate(user=self.user)
+        response = self.client.post(
+            reverse(
+                'users:customuser-upload-photo',
+                kwargs={'id': self.user.id}
+            ),
+            format='multipart')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data, {"detail": "Фотография не найдена."})

@@ -40,7 +40,8 @@ class CustomUserViewSet(UserViewSet):
         if serializer.is_valid():
             user.photo.delete()
             user.photo.save(photo_data.name, photo_data, save=True)
-            response.append(serializer.data)
+            user.refresh_from_db()
+            response.append(CustomUserPhotoSerializer(user).data)
         else:
             return Response(serializer.errors,
                             status=status.HTTP_400_BAD_REQUEST)

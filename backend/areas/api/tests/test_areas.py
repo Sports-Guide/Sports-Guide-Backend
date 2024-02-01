@@ -109,7 +109,7 @@ class AreaViewSetTestCase(APITestCase):
         return images
 
     def test_add_images_correctly(self):
-        """fla
+        """
         Тест возможности добавления фото автором площадки.
         """
         self.client.force_authenticate(user=self.user)

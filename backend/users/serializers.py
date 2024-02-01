@@ -34,6 +34,7 @@ class CustomUserCreateSerializer(UserCreateSerializer):
 
 
 class CustomUserPhotoSerializer(UserSerializer):
+
     class Meta:
         model = User
-        fields = ('id', 'photo')
+        fields = ('photo',)
