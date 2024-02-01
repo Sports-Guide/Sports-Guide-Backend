@@ -19,13 +19,14 @@ class CommentViewSetTestCase(APITestCase):
         )
         self.area = AreaFactory()
         self.comment = CommentFactory(author=self.user, area=self.area)
-        self.comment_url = reverse('comment-detail', args=[self.comment.id])
+        self.comment_url = reverse('areas:comment-detail',
+                                   args=[self.comment.id])
 
     def test_list_comments(self):
         """
         Тест возможности получения списка комментариев.
         """
-        response = self.client.get(reverse('comment-list'))
+        response = self.client.get(reverse('areas:comment-list'))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertTrue(len(response.data) >= 1)
 
@@ -35,7 +36,7 @@ class CommentViewSetTestCase(APITestCase):
         """
         self.client.force_authenticate(user=self.user)
         data = {'area': self.area.id, 'comment': 'New Comment'}
-        response = self.client.post(reverse('comment-list'), data)
+        response = self.client.post(reverse('areas:comment-list'), data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     def test_update_comment_by_author(self):
@@ -76,7 +77,7 @@ class CommentViewSetTestCase(APITestCase):
         """
         Тест возможности получения комментариев к площадке.
         """
-        response = self.client.get(reverse('area-comments',
+        response = self.client.get(reverse('areas:area-comments',
                                            args=[self.area.id]))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIsInstance(response.data, list,
