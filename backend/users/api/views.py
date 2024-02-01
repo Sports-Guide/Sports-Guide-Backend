@@ -3,26 +3,10 @@ from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from users.models import CustomUser
-from users.serializers import (
-    CustomUserCreateSerializer,
-    CustomUserSerializer,
-    CustomUserShortSerializer,
-)
+from users.api.serializers import CustomUserSerializer
 
 
 class CustomUserViewSet(UserViewSet):
-    queryset = CustomUser.objects.all()
-    serializer_class = CustomUserSerializer
-
-    def get_serializer_class(self):
-        match self.action:
-            case 'list':
-                return CustomUserShortSerializer
-            case 'create':
-                return CustomUserCreateSerializer
-            case _:
-                return CustomUserSerializer
 
     @action(methods=['post'], detail=False, url_path='me/upload_photo')
     def upload_photo(self, request, *args, **kwargs):

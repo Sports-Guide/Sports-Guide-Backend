@@ -18,14 +18,14 @@ class CategoryViewSetTestCase(APITestCase):
             password='adminpassword'
         )
         self.category = CategoryFactory()
-        self.category_url = reverse('category-detail',
+        self.category_url = reverse('areas:category-detail',
                                     kwargs={'pk': self.category.pk})
 
     def test_list_categories(self):
         """
         Тест возможности получения списка категорий.
         """
-        response = self.client.get(reverse('category-list'))
+        response = self.client.get(reverse('areas:category-list'))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 1)
 
@@ -35,7 +35,7 @@ class CategoryViewSetTestCase(APITestCase):
         """
         self.client.force_authenticate(user=self.admin_user)
         data = {'name': 'New', 'slug': 'New'}
-        response = self.client.post(reverse('category-list'), data)
+        response = self.client.post(reverse('areas:category-list'), data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     def test_create_category_as_user(self):
@@ -44,7 +44,7 @@ class CategoryViewSetTestCase(APITestCase):
         """
         self.client.force_authenticate(user=self.user)
         data = {'name': 'New Category'}
-        response = self.client.post(reverse('category-list'), data)
+        response = self.client.post(reverse('areas:category-list'), data)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_update_category_as_admin(self):

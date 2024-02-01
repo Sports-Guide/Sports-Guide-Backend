@@ -30,13 +30,13 @@ class AreaViewSetTestCase(APITestCase):
             author=self.another_user,
             moderation_status=ModerationStatus.APPROVED.value
         )
-        self.area_url = reverse('area-detail', args=[self.area.id])
+        self.area_url = reverse('areas:area-detail', args=[self.area.id])
 
     def test_list_areas(self):
         """
         Тест возможности получения списка площадок.
         """
-        response = self.client.get(reverse('area-list'))
+        response = self.client.get(reverse('areas:area-list'))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertTrue(len(response.data) >= 2)
 
@@ -51,7 +51,7 @@ class AreaViewSetTestCase(APITestCase):
             'longitude': 11.111111,
             'categories': [self.category.id],
         }
-        response = self.client.post(reverse('area-list'), data)
+        response = self.client.post(reverse('areas:area-list'), data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     def test_update_area_by_author(self):
@@ -117,7 +117,7 @@ class AreaViewSetTestCase(APITestCase):
         payload = {
             "image": self.images
         }
-        response = self.client.post(reverse('area-add-images',
+        response = self.client.post(reverse('areas:area-add-images',
                                             args=[self.area.id]),
                                     data=payload,
                                     format='multipart')
@@ -135,7 +135,7 @@ class AreaViewSetTestCase(APITestCase):
         payload = {
             "image": self.images
         }
-        response = self.client.post(reverse('area-add-images',
+        response = self.client.post(reverse('areas:area-add-images',
                                             args=[self.area.id]),
                                     data=payload,
                                     format='multipart')
@@ -152,7 +152,7 @@ class AreaViewSetTestCase(APITestCase):
         payload = {
             "image": self.images
         }
-        response = self.client.post(reverse('area-add-images',
+        response = self.client.post(reverse('areas:area-add-images',
                                             args=[self.area.id]),
                                     data=payload,
                                     format='multipart')

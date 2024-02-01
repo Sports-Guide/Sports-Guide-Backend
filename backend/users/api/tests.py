@@ -27,7 +27,7 @@ class CustomUserTests(APITestCase):
         """
         Тестирование регистрации пользователя.
         """
-        url = reverse('users:customuser-list')
+        url = reverse('users:register')
         data = {
             'email': 'user@example.com',
             'nickname': 'nickname',
@@ -65,7 +65,7 @@ class CustomUserTests(APITestCase):
         """
         Тест валидации пароля без символов в нижнем регистре через API.
         """
-        url = reverse('users:customuser-list')
+        url = reverse('users:register')
         data = {
             'email': 'user@example.com',
             'nickname': 'usernick',
@@ -78,7 +78,7 @@ class CustomUserTests(APITestCase):
         """
         Тест валидации пароля без символов в верхнем регистре через API.
         """
-        url = reverse('users:customuser-list')
+        url = reverse('users:register')
         data = {
             'email': 'user@example.com',
             'nickname': 'usernick',
@@ -91,7 +91,7 @@ class CustomUserTests(APITestCase):
         """
         Тест валидации пароля с не латинскими символами через API.
         """
-        url = reverse('users:customuser-list')
+        url = reverse('users:register')
         data = {
             'email': 'user@example.com',
             'nickname': 'usernick',
@@ -104,7 +104,7 @@ class CustomUserTests(APITestCase):
         """
         Тест валидации корректного пароля через API.
         """
-        url = reverse('users:customuser-list')
+        url = reverse('users:register')
         data = {
             'email': 'user@example.com',
             'nickname': 'usernick',
@@ -137,7 +137,7 @@ class CustomUserTests(APITestCase):
         }
         response = self.client.post(
             reverse(
-                'users:customuser-upload-photo',
+                'users:upload_photo',
             ),
             data=payload,
             format='multipart')
@@ -154,7 +154,7 @@ class CustomUserTests(APITestCase):
         self.client.force_authenticate(user=self.user)
         response = self.client.post(
             reverse(
-                'users:customuser-upload-photo',
+                'users:upload_photo',
             ),
             format='multipart')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
@@ -169,7 +169,7 @@ class CustomUserTests(APITestCase):
             "photo": self.photo
         }
         response = self.client.post(
-            reverse('users:customuser-upload-photo'),
+            reverse('users:upload_photo'),
             data=payload,
             format='multipart')
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
