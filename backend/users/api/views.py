@@ -4,12 +4,9 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from users.api.serializers import CustomUserSerializer
-from users.models import CustomUser
 
 
 class CustomUserViewSet(UserViewSet):
-    queryset = CustomUser.objects.all()
-    serializer_class = CustomUserSerializer
 
     @action(methods=['post'], detail=False, url_path='me/upload_photo')
     def upload_photo(self, request, *args, **kwargs):
