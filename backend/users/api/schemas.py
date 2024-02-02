@@ -9,7 +9,7 @@ from .serializers import CustomUserSerializer
 users_data = {
     'CustomUserViewSet': {
         'tags': ['Пользователи'],
-        'api_users_create': {
+        'users_create': {
             'summary': 'Регистрация нового пользователя',
             'description': 'Создает новую учетную запись пользователя на '
                            'основе предоставленных данных, таких как имя '
@@ -17,12 +17,12 @@ users_data = {
                            'возвращает информацию о созданном пользователе.',
             'request': UserCreateSerializer,
         },
-        'api_users_me_retrieve': {
+        'users_me_retrieve': {
             'summary': 'Получение данных пользователя',
             'description': 'Возвращает данные текущего пользователя. '
                            'Требуется токен аутентификации.',
         },
-        'api_users_me_partial_update': {
+        'users_me_partial_update': {
             'summary': 'Обновление данных пользователя',
             'description': 'Позволяет пользователям обновлять свои данные. '
                            'Пользователь должен отправить только те поля, '
@@ -30,7 +30,7 @@ users_data = {
                            'Требуется токен аутентификации.',
             'request': CustomUserSerializer
         },
-        'api_users_me_destroy': {
+        'users_me_destroy': {
             'summary': 'Удаление учетной записи пользователя',
             'description': 'Удаляет учетную запись текущего пользователя. '
                            'Пользователь должен отправить текущий пароль. '
@@ -39,7 +39,7 @@ users_data = {
                            'Требуется токен аутентификации.',
             'request': CurrentPasswordSerializer
         },
-        'api_users_me_upload_photo_create': {
+        'users_me_upload_photo_create': {
             'summary': 'Загрузка фото пользователя',
             'description': 'Устанавливает фото для текущего пользователя. '
                            'Пользователь должен отправить фото. '
@@ -52,7 +52,7 @@ users_data = {
                 },
             },
         },
-        'api_users_set_password_create': {
+        'users_set_password_create': {
             'summary': 'Смена пароля',
             'description': 'Позволяет пользователям изменить свой текущий '
                            'пароль, предоставляя старый и новый пароль. '
