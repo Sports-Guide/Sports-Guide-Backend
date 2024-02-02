@@ -31,10 +31,3 @@ class CustomUserCreateSerializer(UserCreateSerializer):
                 save=True
             )
         return user
-
-
-class CustomUserPhotoSerializer(UserSerializer):
-
-    class Meta:
-        model = User
-        fields = ('photo',)
