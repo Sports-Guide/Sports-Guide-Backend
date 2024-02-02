@@ -11,7 +11,7 @@ router.register(r'users', CustomUserViewSet, basename='customuser')
 
 urlpatterns = [
     path(
-        'users/register/',
+        'users/',
         CustomUserViewSet.as_view({'post': 'create'}),
         name='register'
     ),
@@ -34,7 +34,7 @@ urlpatterns = [
         CustomUserViewSet.as_view({'post': 'upload_photo'}),
         name='upload_photo'
     ),
-    path('auth/', include('djoser.urls')),
-    path('auth/', include(router.urls)),
+    # path('auth/', include('djoser.urls')),
+    # path('auth/', include(router.urls)),
     path('auth/', include('djoser.urls.jwt')),
 ]

@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'areas.apps.AreasConfig',
     'django_filters',
+    'drf_spectacular',
 ]
 
 MIDDLEWARE = [
@@ -133,6 +134,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
+    'DEFAULT_SCHEMA_CLASS': 'areas.api.schemas.CustomSchema',
 }
 
 SIMPLE_JWT = {
@@ -146,4 +148,11 @@ DJOSER = {
         'current_user': 'users.api.serializers.CustomUserSerializer',
         'user_create': 'users.api.serializers.CustomUserCreateSerializer',
     },
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Sports-Map API',
+    'DESCRIPTION': 'Сервис для поиска спортивных площадок',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
 }

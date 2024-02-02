@@ -128,7 +128,6 @@ class CustomUserTests(APITestCase):
     def test_add_photo_correctly(self):
         """
         Тестирование загрузки фотографии пользователя.
-
         """
         self.client.force_authenticate(user=self.user)
         self.photo = self.get_photo()
