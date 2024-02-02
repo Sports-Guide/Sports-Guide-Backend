@@ -1,6 +1,6 @@
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
-from django.core.validators import MinLengthValidator
+from django.core.validators import MaxLengthValidator, MinLengthValidator
 from django.db import models
 from django.utils import timezone
 
@@ -30,14 +30,14 @@ class CustomUserManager(BaseUserManager):
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(
-        max_length=254,
         unique=True,
+        validators=[MinLengthValidator(6), MaxLengthValidator(50)],
         verbose_name='email',
     )
     nickname = models.SlugField(
         max_length=20,
         unique=True,
-        validators=[MinLengthValidator(3)],
+        validators=[MinLengthValidator(2), MaxLengthValidator(20)],
         verbose_name='никнейм',
     )
     photo = models.ImageField(
