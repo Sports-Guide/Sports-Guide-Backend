@@ -13,18 +13,18 @@ from users.api.schemas import users_data
 areas_data = {
     'AreaViewSet': {
         'tags': ['Площадки'],
-        'api_areas_list': {
+        'areas_list': {
             'summary': 'Получение списка площадок',
             'description': 'Возвращает список всех площадок, которые '
                            'прошли модерацию. Этот список может быть '
                            'отфильтрован по категориям.',
         },
-        'api_areas_create': {
+        'areas_create': {
             'summary': 'Создание новой площадки',
             'description': 'Позволяет пользователям создавать новые площадки. '
                            'Требуется токен аутентификации.',
             'request': inline_serializer(
-                name='LocationCategoriesRequest',
+                name='areas_create',
                 fields={
                     'latitude': serializers.DecimalField(max_digits=9,
                                                          decimal_places=6),
@@ -36,18 +36,18 @@ areas_data = {
                 }
             ),
         },
-        'api_areas_retrieve': {
+        'areas_retrieve': {
             'summary': 'Получение информации о площадке',
             'description': 'Возвращает подробную информацию о конкретной '
                            'площадке.',
         },
-        'api_areas_update': {
+        'areas_update': {
             'summary': 'Обновление площадки',
             'description': 'Позволяет авторам или администраторам обновлять '
                            'информацию о площадке. Требуется токен '
                            'аутентификации.',
             'request': inline_serializer(
-                name='LocationCategoriesRequest',
+                name='areas_update',
                 fields={
                     'latitude': serializers.DecimalField(max_digits=9,
                                                          decimal_places=6),
@@ -59,13 +59,13 @@ areas_data = {
                 }
             ),
         },
-        'api_areas_partial_update': {
+        'areas_partial_update': {
             'summary': 'Частичное обновление площадки',
             'description': 'Позволяет авторам или администраторам обновлять '
                            'информацию о площадке. Требуется токен '
                            'аутентификации.',
             'request': inline_serializer(
-                name='LocationCategoriesRequest',
+                name='areas_partial_update',
                 fields={
                     'latitude': serializers.DecimalField(max_digits=9,
                                                          decimal_places=6),
@@ -77,13 +77,13 @@ areas_data = {
                 }
             ),
         },
-        'api_areas_destroy': {
+        'areas_destroy': {
             'summary': 'Удаление площадки',
             'description': 'Удаляет площадку. Эта операция доступна только '
                            'авторам области или администраторам. Требуется '
                            'токен аутентификации.',
         },
-        'api_areas_add_images_create': {
+        'areas_add_images_create': {
             'summary': 'Добавление изображений к площадке',
             'description': 'Позволяет пользователям добавлять изображения '
                            'к конкретной площадке. Требуется передача файлов '
@@ -104,7 +104,7 @@ areas_data = {
                 }
             },
         },
-        'api_areas_comments_retrieve': {
+        'areas_comments_retrieve': {
             'summary': 'Получение комментариев к площадке',
             'description': 'Возвращает список комментариев, оставленных '
                            'пользователями к конкретной площадке.',
@@ -113,30 +113,30 @@ areas_data = {
     },
     'CommentViewSet': {
         'tags': ['Комментарии'],
-        'api_comments_list': {
+        'comments_list': {
             'summary': 'Получение списка комментариев',
             'description': 'Возвращает список всех комментариев.',
         },
-        'api_comments_create': {
+        'comments_create': {
             'summary': 'Создание нового комментария',
             'description': 'Позволяет пользователям создавать новые '
                            'комментарии к площадкам. '
                            'Требуется токен аутентификации.',
             'request': CommentSerializer,
         },
-        'api_comments_retrieve': {
+        'comments_retrieve': {
             'summary': 'Получение информации о комментарии',
             'description': 'Возвращает подробную информацию о конкретном '
                            'комментарии.',
         },
-        'api_comments_update': {
+        'comments_update': {
             'summary': 'Обновление комментария',
             'description': 'Позволяет авторам комментариев или '
                            'администраторам обновлять информацию комментария. '
                            'Требуется токен аутентификации.',
             'request': CommentSerializer,
         },
-        'api_comments_partial_update': {
+        'comments_partial_update': {
             'summary': 'Частичное обновление комментария',
             'description': 'Позволяет авторам комментариев или '
                            'администраторам частично обновлять '
@@ -144,7 +144,7 @@ areas_data = {
                            'Требуется токен аутентификации.',
             'request': CommentSerializer,
         },
-        'api_comments_destroy': {
+        'comments_destroy': {
             'summary': 'Удаление комментария',
             'description': 'Удаляет комментарий. Эта операция доступна только '
                            'авторам комментария или администраторам. '
@@ -152,7 +152,7 @@ areas_data = {
         },
     },
     'TokenObtainPairView': {
-        'api_auth_jwt_create_create': {
+        'auth_jwt_create_create': {
             'summary': 'Создание токена JWT',
             'description': 'Позволяет пользователю получить токен JWT, '
                            'предоставив учетные данные. Этот токен '
@@ -161,7 +161,7 @@ areas_data = {
         }
     },
     'TokenRefreshView': {
-        'api_auth_jwt_refresh_create': {
+        'auth_jwt_refresh_create': {
             'summary': 'Обновление токена JWT',
             'description': 'Позволяет обновить существующий токен JWT. '
                            'Для этого необходимо предоставить действующий '
@@ -170,7 +170,7 @@ areas_data = {
         }
     },
     'TokenVerifyView': {
-        'api_auth_jwt_verify_create': {
+        'auth_jwt_verify_create': {
             'summary': 'Проверка токена JWT',
             'description': 'Позволяет проверить действительность токена JWT. '
                            'Для этого необходимо предоставить токен, '
@@ -180,33 +180,33 @@ areas_data = {
     },
     'CategoryViewSet': {
         'tags': ['Категории'],
-        'api_categories_list': {
+        'categories_list': {
             'summary': 'Получение списка категорий',
             'description': 'Возвращает список всех категорий.',
         },
-        'api_categories_create': {
+        'categories_create': {
             'summary': 'Создание новой категории',
             'description': 'Позволяет администраторам создавать новые '
                            'категории. Требуется токен аутентификации.',
             'request': CategorySerializer,
         },
-        'api_categories_retrieve': {
+        'categories_retrieve': {
             'summary': 'Получение информации о категории',
             'description': 'Возвращает информацию о конкретной категории.',
         },
-        'api_categories_update': {
+        'categories_update': {
             'summary': 'Обновление категории',
             'description': 'Позволяет администраторам обновлять информацию о '
                            'категории. Требуется токен аутентификации.',
             'request': CategorySerializer,
         },
-        'api_categories_partial_update': {
+        'categories_partial_update': {
             'summary': 'Частичное обновление категории',
             'description': 'Позволяет администраторам обновлять информацию о '
                            'категории. Требуется токен аутентификации.',
             'request': CategorySerializer,
         },
-        'api_categories_destroy': {
+        'categories_destroy': {
             'summary': 'Удаление категории',
             'description': 'Удаляет категорию. Эта операция доступна только '
                            'администраторам. Требуется токен аутентификации.',
