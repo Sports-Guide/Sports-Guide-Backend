@@ -16,3 +16,9 @@ class CustomPasswordValidator:
                 'Пароль может содержать только латинские символы.',
                 code='password_no_latin'
             )
+
+        if len(password) > 25:
+            raise ValidationError(
+                'Введённый пароль слишком длинный. '
+                'Он не должен содержать больше 25 символов.'
+            )
