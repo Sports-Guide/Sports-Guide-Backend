@@ -38,6 +38,7 @@ class Area(models.Model):
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
+        related_name='areas',
         verbose_name='автор'
     )
     categories = models.ManyToManyField(

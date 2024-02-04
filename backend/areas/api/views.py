@@ -3,6 +3,7 @@ from drf_spectacular.utils import extend_schema, inline_serializer
 from rest_framework import serializers, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.parsers import MultiPartParser
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from areas.api.serializers import (
@@ -87,6 +88,14 @@ class AreaViewSet(viewsets.ModelViewSet):
         area = self.get_object()
         comments = area.comments.all()
         serializer = CommentSerializer(comments, many=True)
+        return Response(serializer.data)
+
+    @action(detail=False, methods=['get'],
+            permission_classes=[IsAuthenticated])
+    def my(self, request, pk=None):
+        user = self.request.user
+        areas = user.areas.all()
+        serializer = AreaReadSerializer(areas, many=True)
         return Response(serializer.data)
 
 

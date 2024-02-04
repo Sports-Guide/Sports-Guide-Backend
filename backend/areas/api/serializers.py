@@ -56,5 +56,5 @@ class AreaReadSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Area
-        fields = ('id', 'author', 'latitude',
+        fields = ('id', 'moderation_status', 'author', 'latitude',
                   'longitude', 'categories', 'images')

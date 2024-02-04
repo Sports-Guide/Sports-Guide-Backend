@@ -7,7 +7,12 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 
 from areas.constants import ModerationStatus
-from areas.factories import AreaFactory, CategoryFactory, UserFactory
+from areas.factories import (
+    AreaFactory,
+    CategoryFactory,
+    CommentFactory,
+    UserFactory,
+)
 
 User = get_user_model()
 
@@ -157,3 +162,22 @@ class AreaViewSetTestCase(APITestCase):
                                     data=payload,
                                     format='multipart')
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_get_comments(self):
+        """
+        Тест получения комментариев к конкретной площадке.
+        """
+        CommentFactory.create_batch(3, area=self.area, author=self.user)
+        response = self.client.get(
+            reverse('areas:area-detail', args=[self.area.id]) + 'comments/')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 3)
+
+    def test_get_areas_by_user(self):
+        """
+        Тест получения площадок, созданных пользователем.
+        """
+        self.client.force_authenticate(user=self.user)
+        response = self.client.get(reverse('areas:area-my'))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)
