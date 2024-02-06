@@ -1,3 +1,4 @@
+from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import extend_schema, inline_serializer
 from rest_framework import serializers, status, viewsets
@@ -14,7 +15,7 @@ from areas.api.serializers import (
     CommentSerializer,
 )
 from areas.constants import ModerationStatus
-from areas.models import Area, Category, Comment
+from areas.models import Area, Category, Comment, FavoriteArea
 
 from .filters import AreaFilter
 from .pagination import CommentPaginator
@@ -97,6 +98,32 @@ class AreaViewSet(viewsets.ModelViewSet):
         areas = user.areas.all()
         serializer = AreaReadSerializer(areas, many=True)
         return Response(serializer.data)
+
+    @action(
+        detail=True,
+        methods=['post', 'delete'],
+        url_path='favorite',
+        permission_classes=[IsAuthenticated]
+    )
+    def favorite(self, request, pk=None):
+        area = self.get_object()
+        if request.method == 'POST':
+            if FavoriteArea.objects.filter(
+                user=request.user,
+                area=area
+            ).exists():
+                return Response(
+                    {'errors': 'Площадка уже добавлена в избранное!'},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            FavoriteArea.objects.create(user=request.user, area=area)
+            serializer = AreaSerializer(area)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        favorite = get_object_or_404(FavoriteArea,
+                                     user=request.user,
+                                     area=area)
+        favorite.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class CommentViewSet(viewsets.ModelViewSet):

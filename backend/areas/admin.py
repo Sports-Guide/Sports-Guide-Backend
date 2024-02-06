@@ -10,10 +10,18 @@ class AreaImageInline(admin.TabularInline):
 
 @admin.register(Area)
 class AreaAdmin(admin.ModelAdmin):
-    list_display = ('author', 'moderation_status', 'date_added',)
+    list_display = (
+        'author',
+        'moderation_status',
+        'date_added',
+        'added_to_favorites'
+    )
     list_filter = ('moderation_status', 'date_added', 'categories',)
     search_fields = ('author__nickname',)
     inlines = (AreaImageInline,)
+
+    def added_to_favorites(self, obj: Area):
+        return obj.favorite.count()
 
 
 @admin.register(Category)

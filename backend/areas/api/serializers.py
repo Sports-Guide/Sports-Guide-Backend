@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from areas.models import Area, AreaImage, Category, Comment
+from areas.models import Area, AreaImage, Category, Comment, FavoriteArea
 from users.api.serializers import (
     CustomUserSerializer,
     CustomUserShortSerializer,
@@ -53,8 +53,15 @@ class AreaReadSerializer(serializers.ModelSerializer):
         read_only=True,
         source='areaimage_set'
     )
+    is_favorited = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Area
         fields = ('id', 'moderation_status', 'author', 'latitude',
-                  'longitude', 'categories', 'images')
+                  'longitude', 'categories', 'images', 'is_favorited')
+
+    def get_is_favorited(self, obj):
+        user = self.context['request'].user
+        if user.is_anonymous:
+            return False
+        return FavoriteArea.objects.filter(recipe=obj, user=user).exists()
