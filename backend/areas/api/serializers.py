@@ -30,7 +30,9 @@ class CommentSerializer(serializers.ModelSerializer):
 
 
 class AreaSerializer(serializers.ModelSerializer):
-    author = CustomUserSerializer(default=serializers.CurrentUserDefault())
+    author = CustomUserSerializer(
+        default=serializers.CurrentUserDefault(),
+    )
     images = AreaImageSerializer(
         many=True,
         read_only=True,
@@ -54,5 +56,5 @@ class AreaReadSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Area
-        fields = ('id', 'author', 'latitude',
+        fields = ('id', 'moderation_status', 'author', 'latitude',
                   'longitude', 'categories', 'images')

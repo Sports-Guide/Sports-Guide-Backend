@@ -1,11 +1,19 @@
 from django.contrib.auth import get_user_model
+from django.core.validators import MinLengthValidator
 from django.db import models
+
+from areas.validators import validate_category_name
 
 User = get_user_model()
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=255, verbose_name='название')
+    name = models.CharField(
+        unique=True,
+        max_length=20,
+        validators=[MinLengthValidator(2), validate_category_name],
+        verbose_name='название'
+    )
     slug = models.SlugField(
         max_length=255,
         unique=True,
@@ -30,6 +38,7 @@ class Area(models.Model):
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
+        related_name='areas',
         verbose_name='автор'
     )
     categories = models.ManyToManyField(
