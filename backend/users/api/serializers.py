@@ -26,7 +26,6 @@ class CustomUserSerializer(UserSerializer):
     class Meta:
         model = User
         fields = ('id', 'nickname', 'email', 'photo')
-        read_only_fields = ('email',)
 
 
 class CustomUserCreateSerializer(UserCreateSerializer):
@@ -66,9 +65,6 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
 
 
 class CustomSendEmailResetSerializer(SendEmailResetSerializer):
-    def get_user(self, is_active=False):
-        return super().get_user()
-
     def validate_email(self, value):
         if not User.objects.filter(email=value).exists():
             raise ValidationError(

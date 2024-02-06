@@ -1,11 +1,10 @@
 from djoser.serializers import (
-    ActivationSerializer,
     CurrentPasswordSerializer,
-    PasswordResetConfirmSerializer,
+    SetPasswordSerializer,
     UserCreateSerializer,
 )
 
-from .serializers import CustomSendEmailResetSerializer, CustomUserSerializer
+from .serializers import CustomUserSerializer
 
 users_data = {
     'CustomUserViewSet': {
@@ -53,40 +52,12 @@ users_data = {
                 },
             },
         },
-        'users_activation_create': {
-            'summary': 'Активация учетной записи пользователя',
-            'description': 'Активирует учетную запись пользователя через '
-                           'токен активации, отправленный на электронный '
-                           'адрес после регистрации. Требуется токен '
-                           'активации, отправленный по электронной почте.',
-            'request': ActivationSerializer
+        'users_set_password_create': {
+            'summary': 'Смена пароля',
+            'description': 'Позволяет пользователям изменить свой текущий '
+                           'пароль, предоставляя старый и новый пароль. '
+                           'Требуется токен аутентификации.',
+            'request': SetPasswordSerializer
         },
-        'users_resend_activation_create': {
-            'summary': 'Повторная отправка письма активации',
-            'description': 'В случае, если письмо активации не было получено '
-                           'или потеряно, пользователь может запросить его '
-                           'повторную отправку. Необходимо указать '
-                           'электронный адрес, связанный с учетной записью.',
-            'request': CustomSendEmailResetSerializer
-        },
-        'users_reset_password_create': {
-            'summary': 'Инициация сброса пароля',
-            'description': 'Позволяет пользователю запросить сброс пароля, '
-                           'отправив электронный адрес, связанный с учетной '
-                           'записью. На указанный адрес будет отправлено '
-                           'письмо со ссылкой для создания нового пароля. '
-                           'Требуется ввод электронного адреса, '
-                           'связанного с учетной записью.',
-            'request': CustomSendEmailResetSerializer
-        },
-        'users_reset_password_confirm_create': {
-            'summary': 'Подтверждение сброса пароля',
-            'description': 'Завершает процесс сброса пароля. Пользователь '
-                           'должен предоставить токен сброса пароля, '
-                           'полученный в письме, и новый пароль. '
-                           'Требуется токен сброса и новый пароль.',
-            'request': PasswordResetConfirmSerializer
-        },
-
     }
 }
