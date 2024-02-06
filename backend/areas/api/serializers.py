@@ -64,4 +64,4 @@ class AreaReadSerializer(serializers.ModelSerializer):
         user = self.context['request'].user
         if user.is_anonymous:
             return False
-        return FavoriteArea.objects.filter(recipe=obj, user=user).exists()
+        return FavoriteArea.objects.filter(area=obj, user=user).exists()
