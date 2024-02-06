@@ -26,6 +26,7 @@ class CustomUserSerializer(UserSerializer):
     class Meta:
         model = User
         fields = ('id', 'nickname', 'email', 'photo')
+        read_only_fields = ('email',)
 
 
 class CustomUserCreateSerializer(UserCreateSerializer):
