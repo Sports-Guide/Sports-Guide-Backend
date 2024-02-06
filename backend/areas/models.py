@@ -14,6 +14,10 @@ class Category(models.Model):
         validators=[MinLengthValidator(2), validate_category_name],
         verbose_name='название'
     )
+    area_name = models.CharField(
+        max_length=50,
+        verbose_name='название площадки'
+    )
     slug = models.SlugField(
         max_length=255,
         unique=True,

@@ -46,6 +46,7 @@ class AreaSerializer(serializers.ModelSerializer):
 
 
 class AreaReadSerializer(serializers.ModelSerializer):
+    name = serializers.SerializerMethodField()
     author = CustomUserSerializer()
     categories = CategorySerializer(many=True)
     images = AreaImageSerializer(
@@ -56,5 +57,10 @@ class AreaReadSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Area
-        fields = ('id', 'moderation_status', 'author', 'latitude',
+        fields = ('id', 'name', 'moderation_status', 'author', 'latitude',
                   'longitude', 'categories', 'images')
+
+    def get_name(self, obj):
+        if obj.categories.count() == 1:
+            return obj.categories.first().area_name
+        return 'Спортивная площадка'
