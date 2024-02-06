@@ -16,7 +16,7 @@ DEBUG = os.getenv('DEBUG', 'True').lower() == 'true'
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '127.0.0.1').split(', ')
 
-CSRF_TRUSTED_ORIGINS = ['https://sports-map.ru']
+CSRF_TRUSTED_ORIGINS = ['https://sports-map.ru', 'http://193.107.239.81:8000']
 CORS_ALLOW_ALL_ORIGINS = True
 AUTH_USER_MODEL = 'users.CustomUser'
 
@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'areas.apps.AreasConfig',
     'django_filters',
+    'drf_spectacular',
 ]
 
 MIDDLEWARE = [
@@ -133,6 +134,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
+    'DEFAULT_SCHEMA_CLASS': 'areas.api.schemas.CustomSchema',
 }
 
 SIMPLE_JWT = {
@@ -142,8 +144,15 @@ SIMPLE_JWT = {
 
 DJOSER = {
     'SERIALIZERS': {
-        'user': 'users.serializers.CustomUserSerializer',
-        'current_user': 'users.serializers.CustomUserSerializer',
-        'user_create': 'users.serializers.CustomUserCreateSerializer',
+        'user': 'users.api.serializers.CustomUserShortSerializer',
+        'current_user': 'users.api.serializers.CustomUserSerializer',
+        'user_create': 'users.api.serializers.CustomUserCreateSerializer',
     },
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Sports-Map API',
+    'DESCRIPTION': 'Сервис для поиска спортивных площадок',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
 }
