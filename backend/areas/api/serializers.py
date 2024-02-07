@@ -54,11 +54,18 @@ class AreaReadSerializer(serializers.ModelSerializer):
         read_only=True,
         source='areaimage_set'
     )
+    is_favorited = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Area
         fields = ('id', 'name', 'moderation_status', 'author', 'latitude',
-                  'longitude', 'categories', 'images')
+                  'longitude', 'categories', 'images', 'is_favorited')
+
+    def get_is_favorited(self, obj):
+        user = self.context['request'].user
+        if user.is_anonymous:
+            return False
+        return obj.favorite.exists()
 
     def get_name(self, obj):
         categories = obj.categories.all()

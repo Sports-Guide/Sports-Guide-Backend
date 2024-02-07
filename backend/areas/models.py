@@ -117,3 +117,29 @@ class Comment(models.Model):
         ordering = ['-date_added']
         verbose_name = 'комментарий'
         verbose_name_plural = 'комментарии'
+
+
+class FavoriteArea(models.Model):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='favorite'
+    )
+    area = models.ForeignKey(
+        Area,
+        on_delete=models.CASCADE,
+        related_name='favorite'
+    )
+
+    class Meta:
+        verbose_name = 'Избранная площадка'
+        verbose_name_plural = 'Избранные площадки'
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'area'],
+                name='unique_favorite_area'
+            ),
+        ]
+
+    def __str__(self):
+        return f'{self.user} {self.area}'
