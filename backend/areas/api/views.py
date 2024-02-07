@@ -104,7 +104,6 @@ class AreaViewSet(viewsets.ModelViewSet):
     @action(
         detail=True,
         methods=['post', 'delete'],
-        url_path='favorite',
         permission_classes=[IsAuthenticated]
     )
     def favorite(self, request, pk=None):
@@ -130,7 +129,6 @@ class AreaViewSet(viewsets.ModelViewSet):
     @action(
         detail=False,
         methods=['get'],
-        url_path='favorite',
         permission_classes=[IsAuthenticated]
     )
     def favorites(self, request):

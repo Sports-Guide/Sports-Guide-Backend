@@ -179,6 +179,5 @@ class AreaViewSetTestCase(APITestCase):
         """
         self.client.force_authenticate(user=self.user)
         response = self.client.get(reverse('areas:area-my'))
-        print('!!!!!!!!!!!!!!!', response)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 1)
