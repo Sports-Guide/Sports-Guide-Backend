@@ -127,6 +127,23 @@ class AreaViewSet(viewsets.ModelViewSet):
         favorite.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+    @action(
+        detail=False,
+        methods=['get'],
+        url_path='favorite',
+        permission_classes=[IsAuthenticated]
+    )
+    def favorites(self, request):
+        user = self.request.user
+        favorite_areas = FavoriteArea.objects.filter(user=user)
+        areas = []
+        for favorite_area in favorite_areas:
+            areas.append(favorite_area.area)
+        serializer = AreaReadSerializer(areas,
+                                        many=True,
+                                        context={'request': request})
+        return Response(serializer.data)
+
 
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
