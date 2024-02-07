@@ -61,6 +61,7 @@ class AreaReadSerializer(serializers.ModelSerializer):
                   'longitude', 'categories', 'images')
 
     def get_name(self, obj):
-        if obj.categories.count() == 1:
-            return obj.categories.first().area_name
+        categories = obj.categories.all()
+        if len(categories) == 1:
+            return categories[0].area_name
         return 'Спортивная площадка'
