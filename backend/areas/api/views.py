@@ -96,7 +96,9 @@ class AreaViewSet(viewsets.ModelViewSet):
     def my(self, request, pk=None):
         user = self.request.user
         areas = user.areas.all()
-        serializer = AreaReadSerializer(areas, many=True)
+        serializer = AreaReadSerializer(areas,
+                                        many=True,
+                                        context={'request': request})
         return Response(serializer.data)
 
     @action(
