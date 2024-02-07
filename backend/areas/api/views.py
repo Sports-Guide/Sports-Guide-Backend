@@ -46,6 +46,10 @@ class AreaViewSet(viewsets.ModelViewSet):
             case 'list' | 'retrieve':
                 return Area.objects.filter(
                     moderation_status=ModerationStatus.APPROVED.value
+                ).select_related(
+                    'author'
+                ).prefetch_related(
+                    'categories', 'areaimage_set'
                 )
             case 'add_images':
                 return Area.objects.all()

@@ -46,6 +46,7 @@ class AreaSerializer(serializers.ModelSerializer):
 
 
 class AreaReadSerializer(serializers.ModelSerializer):
+    name = serializers.SerializerMethodField()
     author = CustomUserSerializer()
     categories = CategorySerializer(many=True)
     images = AreaImageSerializer(
@@ -57,7 +58,7 @@ class AreaReadSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Area
-        fields = ('id', 'moderation_status', 'author', 'latitude',
+        fields = ('id', 'name', 'moderation_status', 'author', 'latitude',
                   'longitude', 'categories', 'images', 'is_favorited')
 
     def get_is_favorited(self, obj):
@@ -65,3 +66,9 @@ class AreaReadSerializer(serializers.ModelSerializer):
         if user.is_anonymous:
             return False
         return FavoriteArea.objects.filter(area=obj, user=user).exists()
+
+    def get_name(self, obj):
+        categories = obj.categories.all()
+        if len(categories) == 1:
+            return categories[0].area_name
+        return 'Спортивная площадка'
