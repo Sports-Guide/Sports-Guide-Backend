@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'rest_framework_simplejwt',
     'djoser',
+    'social_django',
     'users.apps.UsersConfig',
     'areas.apps.AreasConfig',
     'django_filters',
@@ -153,10 +154,23 @@ DJOSER = {
         'user_create': 'users.api.serializers.CustomUserCreateSerializer',
         'password_reset': 'users.api.serializers.CustomSendEmailResetSerializer'
     },
+    'SOCIAL_AUTH_ALLOWED_REDIRECT_URIS': [os.getenv('FRONTEND_URL')],
     'PASSWORD_RESET_CONFIRM_URL': '#/password/reset/confirm/{uid}/{token}',
     'ACTIVATION_URL': '#/activate/{uid}/{token}',
     'SEND_ACTIVATION_EMAIL': True,
 }
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.vk.VKOAuth2',
+    'social_core.backends.yandex.YaruOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+SOCIAL_AUTH_YARU_KEY = os.getenv('YANDEX_OAUTH2_KEY')
+SOCIAL_AUTH_YARU_SECRET = os.getenv('YANDEX_OAUTH2_SECRET')
+
+SOCIAL_AUTH_VK_OAUTH2_KEY = os.getenv('VK_OAUTH2_KEY')
+SOCIAL_AUTH_VK_OAUTH2_SECRET = os.getenv('VK_OAUTH2_SECRET')
 
 SPECTACULAR_SETTINGS = {
     'TITLE': 'Sports-Map API',
