@@ -49,7 +49,7 @@ class AreaViewSet(viewsets.ModelViewSet):
                 ).select_related(
                     'author'
                 ).prefetch_related(
-                    'categories', 'areaimage_set'
+                    'categories', 'areaimage_set', 'favorite'
                 )
             case 'add_images':
                 return Area.objects.all()
@@ -105,30 +105,26 @@ class AreaViewSet(viewsets.ModelViewSet):
                                         context={'request': request})
         return Response(serializer.data)
 
-    @action(
-        detail=True,
-        methods=['post', 'delete'],
-        permission_classes=[IsAuthenticated]
-    )
+    @action(detail=True, methods=['post', 'delete'],
+            permission_classes=[IsAuthenticated])
     def favorite(self, request, pk=None):
         area = self.get_object()
         if request.method == 'POST':
-            if FavoriteArea.objects.filter(
-                user=request.user,
-                area=area
-            ).exists():
+            favorite, created = FavoriteArea.objects.get_or_create(
+                user=request.user, area=area
+            )
+            if not created:
                 return Response(
-                    {'errors': 'Площадка уже добавлена в избранное!'},
-                    status=status.HTTP_400_BAD_REQUEST
+                    {'detail': 'Площадка уже добавлена в избранное!'},
+                    status=status.HTTP_409_CONFLICT
                 )
-            FavoriteArea.objects.create(user=request.user, area=area)
             serializer = AreaSerializer(area)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        favorite = get_object_or_404(FavoriteArea,
-                                     user=request.user,
-                                     area=area)
-        favorite.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        if request.method == 'DELETE':
+            get_object_or_404(
+                FavoriteArea, user=request.user, area=area
+            ).delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
 
     @action(
         detail=False,
@@ -137,10 +133,13 @@ class AreaViewSet(viewsets.ModelViewSet):
     )
     def favorites(self, request):
         user = self.request.user
-        favorite_areas = FavoriteArea.objects.filter(user=user)
-        areas = []
-        for favorite_area in favorite_areas:
-            areas.append(favorite_area.area)
+        areas = Area.objects.filter(
+            favorite__user=user
+        ).select_related(
+            'author'
+        ).prefetch_related(
+            'categories', 'areaimage_set', 'favorite'
+        )
         serializer = AreaReadSerializer(areas,
                                         many=True,
                                         context={'request': request})

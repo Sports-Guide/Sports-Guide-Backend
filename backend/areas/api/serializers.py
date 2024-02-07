@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from areas.models import Area, AreaImage, Category, Comment, FavoriteArea
+from areas.models import Area, AreaImage, Category, Comment
 from users.api.serializers import (
     CustomUserSerializer,
     CustomUserShortSerializer,
@@ -65,7 +65,7 @@ class AreaReadSerializer(serializers.ModelSerializer):
         user = self.context['request'].user
         if user.is_anonymous:
             return False
-        return FavoriteArea.objects.filter(area=obj, user=user).exists()
+        return obj.favorite.exists()
 
     def get_name(self, obj):
         categories = obj.categories.all()
