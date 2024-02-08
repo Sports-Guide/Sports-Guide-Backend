@@ -1,3 +1,4 @@
+from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 
 from areas.models import Area, AreaImage, Category, Comment
@@ -41,7 +42,7 @@ class AreaSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Area
-        fields = ('id', 'author', 'latitude',
+        fields = ('id', 'address', 'description', 'author', 'latitude',
                   'longitude', 'categories', 'images',)
 
 
@@ -58,15 +59,18 @@ class AreaReadSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Area
-        fields = ('id', 'name', 'moderation_status', 'author', 'latitude',
-                  'longitude', 'categories', 'images', 'is_favorited')
+        fields = ('id', 'name', 'address', 'description', 'moderation_status',
+                  'author', 'latitude', 'longitude', 'categories', 'images',
+                  'is_favorited')
 
+    @extend_schema_field(serializers.CharField)
     def get_is_favorited(self, obj):
         user = self.context['request'].user
         if user.is_anonymous:
             return False
         return obj.favorite.exists()
 
+    @extend_schema_field(serializers.CharField)
     def get_name(self, obj):
         categories = obj.categories.all()
         if len(categories) == 1:

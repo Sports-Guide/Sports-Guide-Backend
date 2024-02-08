@@ -55,6 +55,7 @@ class AreaViewSetTestCase(APITestCase):
             'latitude': 11.111111,
             'longitude': 11.111111,
             'categories': [self.category.id],
+            'address': 'str',
         }
         response = self.client.post(reverse('areas:area-list'), data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -69,6 +70,7 @@ class AreaViewSetTestCase(APITestCase):
             'latitude': 11.111111,
             'longitude': 11.111111,
             'categories': [self.category.id],
+            'address': 'str',
         }
         response = self.client.put(self.area_url, data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
