@@ -60,6 +60,15 @@ class Area(models.Model):
         decimal_places=6,
         verbose_name='Долгота'
     )
+    description = models.TextField(
+        max_length=2000,
+        blank=True,
+        verbose_name='Описание площадки'
+    )
+    address = models.CharField(
+        max_length=255,
+        verbose_name='Адрес'
+    )
     moderation_status = models.CharField(
         max_length=10,
         choices=MODERATION_STATUS_CHOICES,

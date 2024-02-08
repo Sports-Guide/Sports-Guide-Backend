@@ -37,7 +37,6 @@ urlpatterns = [
     path('users/resend_activation/',
          CustomUserViewSet.as_view({'post': 'resend_activation'}),
          name='resend_activation'),
-    # path('auth/', include('djoser.urls')),
-    # path('auth/', include(router.urls)),
+    path('auth/', include('djoser.social.urls')),
     path('auth/', include('djoser.urls.jwt')),
 ]
