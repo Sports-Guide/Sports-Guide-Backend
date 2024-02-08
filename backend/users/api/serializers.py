@@ -66,8 +66,8 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
 
 
 class CustomSendEmailResetSerializer(SendEmailResetSerializer):
-    def get_user(self, is_active=False):
-        return super().get_user()
+    def get_user(self):
+        return super().get_user(is_active=False)
 
     def validate_email(self, value):
         if not User.objects.filter(email=value).exists():
