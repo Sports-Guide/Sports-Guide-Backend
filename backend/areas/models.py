@@ -10,8 +10,8 @@ User = get_user_model()
 class Category(models.Model):
     name = models.CharField(
         unique=True,
-        max_length=20,
-        validators=[MinLengthValidator(2), validate_category_name],
+        max_length=30,
+        validators=[MinLengthValidator(3), validate_category_name],
         verbose_name='название'
     )
     area_name = models.CharField(
@@ -116,7 +116,10 @@ class Comment(models.Model):
         related_name='comments',
         verbose_name='площадка'
     )
-    comment = models.TextField(verbose_name='комментарий')
+    comment = models.TextField(
+        max_length=2000,
+        verbose_name='комментарий'
+    )
     date_added = models.DateTimeField(
         auto_now_add=True,
         verbose_name='дата добавления'
