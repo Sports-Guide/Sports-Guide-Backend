@@ -67,7 +67,7 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
 
 
 class CustomSendEmailResetSerializer(SendEmailResetSerializer):
-    def get_user(self):
+    def get_user(self, is_active=True):
         try:
             user = User.objects.get(
                 **{self.email_field: self.data.get(self.email_field, "")},
