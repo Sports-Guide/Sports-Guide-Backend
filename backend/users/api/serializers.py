@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from djoser.serializers import (
     SendEmailResetSerializer,
@@ -67,7 +68,17 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
 
 class CustomSendEmailResetSerializer(SendEmailResetSerializer):
     def get_user(self):
-        return super().get_user(is_active=False)
+        try:
+            user = User.objects.get(
+                **{self.email_field: self.data.get(self.email_field, "")},
+            )
+            if user.has_usable_password():
+                return user
+        except User.DoesNotExist:
+            pass
+        if (settings.PASSWORD_RESET_SHOW_EMAIL_NOT_FOUND
+                or settings.USERNAME_RESET_SHOW_EMAIL_NOT_FOUND):
+            self.fail("email_not_found")
 
     def validate_email(self, value):
         if not User.objects.filter(email=value).exists():
