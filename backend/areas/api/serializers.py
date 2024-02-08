@@ -17,7 +17,7 @@ class CategorySerializer(serializers.ModelSerializer):
 class AreaImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = AreaImage
-        fields = ('id', 'image')
+        fields = ('image',)
 
 
 class CommentSerializer(serializers.ModelSerializer):
@@ -34,16 +34,55 @@ class AreaSerializer(serializers.ModelSerializer):
     author = CustomUserSerializer(
         default=serializers.CurrentUserDefault(),
     )
-    images = AreaImageSerializer(
-        many=True,
-        read_only=True,
-        source='areaimage_set'
+    images = serializers.ListField(
+        child=serializers.ImageField(), write_only=True, required=False
     )
+    categories = serializers.CharField(required=True)
 
     class Meta:
         model = Area
         fields = ('id', 'address', 'description', 'author', 'latitude',
                   'longitude', 'categories', 'images',)
+
+    def validate_categories(self, value):
+        try:
+            category_ids = [int(id.strip()) for id in value.split(',')]
+        except ValueError:
+            raise serializers.ValidationError(
+                'Категории должны быть перечислены через запятую '
+                'как целые числа.'
+            )
+
+        if not Category.objects.filter(id__in=category_ids).count() == len(
+                category_ids):
+            raise serializers.ValidationError(
+                'Одна или несколько категорий не существуют.'
+            )
+        return category_ids
+
+    def create(self, validated_data):
+        category_ids = validated_data.pop('categories', [])
+        images_data = validated_data.pop('images', [])
+        area = super().create(validated_data)
+
+        area.categories.set(category_ids)
+
+        if images_data:
+            for image_data in images_data:
+                AreaImage.objects.create(area=area, image=image_data)
+        return area
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        categories_serializer = CategorySerializer(
+            instance.categories.all(), many=True
+        )
+        representation['categories'] = categories_serializer.data
+        images_serializer = AreaImageSerializer(
+            instance.areaimage_set.all(), many=True
+        )
+        representation['images'] = images_serializer.data
+        return representation
 
 
 class AreaReadSerializer(serializers.ModelSerializer):
