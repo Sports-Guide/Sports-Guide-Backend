@@ -23,18 +23,35 @@ areas_data = {
             'summary': 'Создание новой площадки',
             'description': 'Позволяет пользователям создавать новые площадки. '
                            'Требуется токен аутентификации.',
-            'request': inline_serializer(
-                name='areas_create',
-                fields={
-                    'latitude': serializers.DecimalField(max_digits=9,
-                                                         decimal_places=6),
-                    'longitude': serializers.DecimalField(max_digits=9,
-                                                          decimal_places=6),
-                    'categories': serializers.ListSerializer(
-                        child=serializers.IntegerField()
-                    )
+            'request': {
+                "multipart/form-data": {
+                    "type": "object",
+                    "properties": {
+                        "address": {
+                            "type": "string",
+                        },
+                        "description": {
+                            "type": "string",
+                        },
+                        "latitude": {
+                            "type": "ingteger",
+                        },
+                        "longitude": {
+                            "type": "string",
+                        },
+                        "categories": {
+                            "type": "string",
+                        },
+                        "images": {
+                            "type": "array",
+                            "items": {
+                                "type": "file",
+                                "format": "binary"
+                            }
+                        }
+                    }
                 }
-            ),
+            }
         },
         'areas_retrieve': {
             'summary': 'Получение информации о площадке',
@@ -114,6 +131,27 @@ areas_data = {
             'summary': 'Получение площадок текущего пользователя',
             'description': 'Возвращает список площадок, созданных '
                            'текущим пользователем. Требуется токен '
+                           'аутентификации.',
+
+        },
+        'areas_favorite_create': {
+            'summary': 'Добавление площадки в избранное',
+            'description': 'Добавляет указанную площадку в список избранных '
+                           'для текущего пользователя. Требуется токен '
+                           'аутентификации.',
+
+        },
+        'areas_favorite_destroy': {
+            'summary': 'Удаление площадки из избранного',
+            'description': 'Удаляет указанную площадку из списка избранных '
+                           'для текущего пользователя. Требуется токен '
+                           'аутентификации.',
+
+        },
+        'areas_favorites_retrieve': {
+            'summary': 'Получение списка избранных площадок',
+            'description': 'Возвращает список всех площадок, добавленных в '
+                           'избранное текущим пользователем. Требуется токен '
                            'аутентификации.',
 
         }
