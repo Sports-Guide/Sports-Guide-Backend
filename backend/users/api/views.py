@@ -8,8 +8,13 @@ from users.api.serializers import CustomUserSerializer
 
 
 class CustomUserViewSet(UserViewSet):
-
+    """
+    ViewSet для пользователей.
+    """
     def destroy(self, request, *args, **kwargs):
+        """
+        Удаляет аккаунт текущего пользователя.
+        """
         user = request.user
         user.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
@@ -26,6 +31,9 @@ class CustomUserViewSet(UserViewSet):
     )
     @action(methods=['post'], detail=False, url_path='me/upload_photo')
     def upload_photo(self, request, *args, **kwargs):
+        """
+        Загружает и сохраняет фотографию пользователя.
+        """
         user = request.user
         if 'photo' not in request.FILES:
             return Response({"detail": "Фото не найдено."},

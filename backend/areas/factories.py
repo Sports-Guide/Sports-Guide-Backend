@@ -12,6 +12,9 @@ User = get_user_model()
 
 
 class UserFactory(factory.django.DjangoModelFactory):
+    """
+    Фабрика для создания тестовых пользователей.
+    """
     class Meta:
         model = User
 
@@ -21,6 +24,9 @@ class UserFactory(factory.django.DjangoModelFactory):
 
 
 class CategoryFactory(factory.django.DjangoModelFactory):
+    """
+    Фабрика для создания тестовых категорий.
+    """
     class Meta:
         model = Category
 
@@ -29,6 +35,9 @@ class CategoryFactory(factory.django.DjangoModelFactory):
 
 
 class AreaFactory(factory.django.DjangoModelFactory):
+    """
+    Фабрика для создания тестовых площадок.
+    """
     class Meta:
         model = Area
 
@@ -53,6 +62,9 @@ class AreaFactory(factory.django.DjangoModelFactory):
 
 
 class CommentFactory(factory.django.DjangoModelFactory):
+    """
+    Фабрика для создания тестовых комментариев к площадкам.
+    """
     class Meta:
         model = Comment
 

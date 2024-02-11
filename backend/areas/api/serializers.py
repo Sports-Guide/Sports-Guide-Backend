@@ -9,18 +9,27 @@ from users.api.serializers import (
 
 
 class CategorySerializer(serializers.ModelSerializer):
+    """
+    Сериализатор для модели категорий.
+    """
     class Meta:
         model = Category
         fields = '__all__'
 
 
 class AreaImageSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор для изображений площадок.
+    """
     class Meta:
         model = AreaImage
         fields = ('image',)
 
 
 class CommentSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор для комментариев.
+    """
     author = CustomUserShortSerializer(
         default=serializers.CurrentUserDefault()
     )
@@ -31,6 +40,9 @@ class CommentSerializer(serializers.ModelSerializer):
 
 
 class AreaSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор для создания и обновления площадок.
+    """
     author = CustomUserSerializer(
         default=serializers.CurrentUserDefault(),
     )
@@ -45,6 +57,9 @@ class AreaSerializer(serializers.ModelSerializer):
                   'longitude', 'categories', 'images',)
 
     def validate_categories(self, value):
+        """
+        Валидирует категории, убеждаясь, что указаны существующие ID категорий.
+        """
         try:
             category_ids = [int(id.strip()) for id in value.split(',')]
         except ValueError:
@@ -61,6 +76,9 @@ class AreaSerializer(serializers.ModelSerializer):
         return category_ids
 
     def create(self, validated_data):
+        """
+        Создает площадку, учитывая переданные категории и изображения.
+        """
         category_ids = validated_data.pop('categories', [])
         images_data = validated_data.pop('images', [])
         area = super().create(validated_data)
@@ -73,6 +91,9 @@ class AreaSerializer(serializers.ModelSerializer):
         return area
 
     def to_representation(self, instance):
+        """
+        Представляет площадку, включая данные о категориях и изображениях.
+        """
         representation = super().to_representation(instance)
         categories_serializer = CategorySerializer(
             instance.categories.all(), many=True
@@ -86,6 +107,9 @@ class AreaSerializer(serializers.ModelSerializer):
 
 
 class AreaReadSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор для чтения площадок.
+    """
     name = serializers.SerializerMethodField()
     author = CustomUserSerializer()
     categories = CategorySerializer(many=True)
@@ -104,6 +128,9 @@ class AreaReadSerializer(serializers.ModelSerializer):
 
     @extend_schema_field(serializers.CharField)
     def get_is_favorited(self, obj):
+        """
+        Определяет, добавлена ли площадка в избранное текущим пользователем.
+        """
         user = self.context['request'].user
         if user.is_anonymous:
             return False
@@ -111,6 +138,9 @@ class AreaReadSerializer(serializers.ModelSerializer):
 
     @extend_schema_field(serializers.CharField)
     def get_name(self, obj):
+        """
+        Генерирует название для площадки на основе категорий.
+        """
         categories = obj.categories.all()
         if len(categories) == 1:
             return categories[0].area_name

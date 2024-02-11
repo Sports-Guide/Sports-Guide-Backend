@@ -21,12 +21,18 @@ from .permissions import IsAdminOrReadOnly, IsAuthorOrAdminOrReadOnly
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
+    """
+    ViewSet для категорий.
+    """
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     permission_classes = (IsAdminOrReadOnly,)
 
 
 class AreaViewSet(viewsets.ModelViewSet):
+    """
+    ViewSet для площадок.
+    """
     permission_classes = (IsAuthorOrAdminOrReadOnly,)
     filter_backends = (DjangoFilterBackend,)
     filterset_fields = ('categories__slug',)
@@ -57,6 +63,9 @@ class AreaViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['get'])
     def comments(self, request, pk=None):
+        """
+        Возвращает комментарии к площадке.
+        """
         area = self.get_object()
         comments = area.comments.all()
         serializer = CommentSerializer(comments, many=True)
@@ -65,6 +74,9 @@ class AreaViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['get'],
             permission_classes=[IsAuthenticated])
     def my(self, request, pk=None):
+        """
+        Возвращает площадки, созданные текущим пользователем.
+        """
         user = self.request.user
         areas = user.areas.all()
         serializer = AreaReadSerializer(areas,
@@ -75,6 +87,9 @@ class AreaViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=['post', 'delete'],
             permission_classes=[IsAuthenticated])
     def favorite(self, request, pk=None):
+        """
+        Добавляет или удаляет площадку из избранного текущего пользователя.
+        """
         area = self.get_object()
         if request.method == 'POST':
             favorite, created = FavoriteArea.objects.get_or_create(
@@ -96,6 +111,9 @@ class AreaViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['get'],
             permission_classes=[IsAuthenticated])
     def favorites(self, request):
+        """
+        Возвращает избранные площадки текущего пользователя.
+        """
         user = self.request.user
         areas = Area.objects.filter(
             favorite__user=user
@@ -111,6 +129,9 @@ class AreaViewSet(viewsets.ModelViewSet):
 
 
 class CommentViewSet(viewsets.ModelViewSet):
+    """
+    ViewSet для комментариев.
+    """
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     permission_classes = (IsAuthorOrAdminOrReadOnly,)

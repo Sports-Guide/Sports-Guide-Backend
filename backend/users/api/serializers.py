@@ -18,12 +18,18 @@ User = get_user_model()
 
 
 class CustomUserShortSerializer(UserSerializer):
+    """
+    Краткий сериализатор для пользовательских данных.
+    """
     class Meta:
         model = User
         fields = ('id', 'nickname', 'photo')
 
 
 class CustomUserSerializer(UserSerializer):
+    """
+    Расширенный сериализатор для пользовательских данных.
+    """
     class Meta:
         model = User
         fields = ('id', 'nickname', 'email', 'photo')
@@ -31,7 +37,9 @@ class CustomUserSerializer(UserSerializer):
 
 
 class CustomUserCreateSerializer(UserCreateSerializer):
-
+    """
+    Сериализатор для создания новых пользователей.
+    """
     def save(self, **kwargs):
         user = super().save(**kwargs)
 
@@ -46,6 +54,14 @@ class CustomUserCreateSerializer(UserCreateSerializer):
 
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    """
+    Сериализатор для получения пары токенов доступа и обновления.
+
+    Расширяет стандартный сериализатор, добавляя кастомные сообщения об
+    ошибках.
+    Обрабатывает случаи неверных данных аутентификации и
+    неактивных пользовательских аккаунтов.
+    """
     default_error_messages = {
         "invalid_data": "Неверный логин или пароль",
         "inactive_user": "Пожалуйста, активируйте вашу учетную запись, "
@@ -53,6 +69,10 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     }
 
     def validate(self, attrs):
+        """
+        Валидирует данные пользователя и генерирует токены доступа,
+        обрабатывая ошибки аутентификации.
+        """
         try:
             user = User.objects.get(email=attrs.get('email'))
             if not user.check_password(attrs.get('password')):
@@ -67,7 +87,16 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
 
 
 class CustomSendEmailResetSerializer(SendEmailResetSerializer):
+    """
+    Сериализатор для отправки запроса на сброс пароля.
+    """
     def get_user(self, is_active=True):
+        """
+        Возвращает пользователя по email.
+
+        Расширяет стандартный метод, позволяя неактивным пользователям
+        сбросить пароль.
+        """
         try:
             user = User.objects.get(
                 **{self.email_field: self.data.get(self.email_field, "")},
@@ -81,6 +110,9 @@ class CustomSendEmailResetSerializer(SendEmailResetSerializer):
             self.fail("email_not_found")
 
     def validate_email(self, value):
+        """
+        Проверяет, существует ли пользователь с данным email.
+        """
         if not User.objects.filter(email=value).exists():
             raise ValidationError(
                 "Пользователь с таким адресом электронной почты не найден."

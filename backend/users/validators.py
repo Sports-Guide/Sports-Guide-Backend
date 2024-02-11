@@ -2,6 +2,9 @@ from django.core.exceptions import ValidationError
 
 
 class CustomPasswordValidator:
+    """
+    Валидатор пароля пользователя.
+    """
     def validate(self, password, user=None):
         if not any(char.islower() for char in password):
             raise ValidationError('Пароль должен содержать хотя бы '
