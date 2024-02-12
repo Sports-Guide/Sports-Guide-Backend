@@ -10,6 +10,9 @@ class AreaImageInline(admin.TabularInline):
 
 @admin.register(Area)
 class AreaAdmin(admin.ModelAdmin):
+    """
+    Конфигурация панели администратора для площадок.
+    """
     list_display = (
         'author',
         'moderation_status',
@@ -21,11 +24,17 @@ class AreaAdmin(admin.ModelAdmin):
     inlines = (AreaImageInline,)
 
     def added_to_favorites(self, obj: Area):
+        """
+        Метод для отображения количества добавлений площадки в избранное.
+        """
         return obj.favorite.count()
 
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
+    """
+    Конфигурация панели администратора для категорий.
+    """
     list_display = ('name',)
     search_fields = ('name',)
     prepopulated_fields = {"slug": ["name"]}
@@ -33,6 +42,9 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
+    """
+    Конфигурация панели администратора для комментариев.
+    """
     list_display = ('author', 'area', 'comment', 'date_added')
     list_filter = ('date_added',)
     search_fields = ('comment', 'author__nickname',)
