@@ -153,7 +153,7 @@ DJOSER = {
         'user_create': 'users.api.serializers.CustomUserCreateSerializer',
         'password_reset': 'users.api.serializers.CustomSendEmailResetSerializer'
     },
-    'SOCIAL_AUTH_ALLOWED_REDIRECT_URIS': [os.getenv('FRONTEND_URL')],
+    'SOCIAL_AUTH_ALLOWED_REDIRECT_URIS': [os.getenv('FRONTEND_URL'), 'http://127.0.0.1:8000/api/auth/o/yaru/'],
     'PASSWORD_RESET_CONFIRM_URL': 'password/reset/confirm/{uid}/{token}',
     'ACTIVATION_URL': 'activate/{uid}/{token}',
     'SEND_ACTIVATION_EMAIL': True,
@@ -165,8 +165,21 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
-SOCIAL_AUTH_YARU_KEY = os.getenv('YANDEX_OAUTH2_KEY')
-SOCIAL_AUTH_YARU_SECRET = os.getenv('YANDEX_OAUTH2_SECRET')
+SOCIAL_AUTH_SLUGIFY_USERNAMES = True
+
+SOCIAL_AUTH_PIPELINE = (
+    'social_core.pipeline.social_auth.social_details',
+    'social_core.pipeline.social_auth.social_uid',
+    'social_core.pipeline.social_auth.social_user',
+    'social_core.pipeline.user.get_username',
+    'users.social.pipeline.user.create_user',
+    'social_core.pipeline.social_auth.associate_user',
+    'social_core.pipeline.social_auth.load_extra_data',
+    'social_core.pipeline.user.user_details',
+)
+
+SOCIAL_AUTH_YARU_KEY = os.getenv('YANDEX_OAUTH2_KEY', '71744929f13244dfa36899afccf26f62')
+SOCIAL_AUTH_YARU_SECRET = os.getenv('YANDEX_OAUTH2_SECRET', 'acc1f78aaf0448ceb8596c0052d5fb53')
 
 SOCIAL_AUTH_VK_OAUTH2_KEY = os.getenv('VK_OAUTH2_KEY')
 SOCIAL_AUTH_VK_OAUTH2_SECRET = os.getenv('VK_OAUTH2_SECRET')
