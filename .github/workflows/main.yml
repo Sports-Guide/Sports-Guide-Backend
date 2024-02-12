@@ -84,9 +84,8 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USER }}
           key: ${{ secrets.SSH_KEY }}
-          passphrase: ${{ secrets.SSH_PASSPHRASE }}
           script: |
-            cd Sports-Guide-Backend
+            cd sports-map
             docker compose pull
             docker compose down
             docker compose up -d
