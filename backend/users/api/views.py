@@ -9,6 +9,11 @@ from users.api.serializers import CustomUserSerializer
 
 class CustomUserViewSet(UserViewSet):
 
+    def destroy(self, request, *args, **kwargs):
+        user = request.user
+        user.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
     @extend_schema(
         responses={
             201: inline_serializer(

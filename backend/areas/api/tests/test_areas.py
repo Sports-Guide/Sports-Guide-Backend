@@ -1,6 +1,3 @@
-from io import BytesIO
-
-from PIL import Image
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 from rest_framework import status
@@ -55,6 +52,7 @@ class AreaViewSetTestCase(APITestCase):
             'latitude': 11.111111,
             'longitude': 11.111111,
             'categories': [self.category.id],
+            'address': 'str',
         }
         response = self.client.post(reverse('areas:area-list'), data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -69,6 +67,7 @@ class AreaViewSetTestCase(APITestCase):
             'latitude': 11.111111,
             'longitude': 11.111111,
             'categories': [self.category.id],
+            'address': 'str',
         }
         response = self.client.put(self.area_url, data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -96,71 +95,6 @@ class AreaViewSetTestCase(APITestCase):
         """
         self.client.force_authenticate(user=self.another_user)
         response = self.client.delete(self.area_url)
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
-
-    @staticmethod
-    def get_image(count=1):
-        """
-        Функция генерации списка с изображениями.
-        """
-        images = []
-        for i in range(count):
-            file = BytesIO()
-            image = Image.new('RGBA', size=(100, 100), color=(155, 0, 0))
-            image.save(file, 'png')
-            file.name = 'test' + str(i) + '.png'
-            file.seek(0)
-            images.append(file)
-        return images
-
-    def test_add_images_correctly(self):
-        """
-        Тест возможности добавления фото автором площадки.
-        """
-        self.client.force_authenticate(user=self.user)
-        self.images = self.get_image(2)
-        payload = {
-            "image": self.images
-        }
-        response = self.client.post(reverse('areas:area-add-images',
-                                            args=[self.area.id]),
-                                    data=payload,
-                                    format='multipart')
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertTrue(len(response.data) == 2)
-        self.assertIsInstance(response.data, list,
-                              'Неправильный тип данных. Должен быть список.')
-
-    def test_add_images_with_no_images(self):
-        """
-        Тест обработки запроса без передачи фото.
-        """
-        self.client.force_authenticate(user=self.user)
-        self.images = []
-        payload = {
-            "image": self.images
-        }
-        response = self.client.post(reverse('areas:area-add-images',
-                                            args=[self.area.id]),
-                                    data=payload,
-                                    format='multipart')
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(response.data.get("detail"),
-                         "Изображения не найдены.")
-
-    def test_add_images_by_not_author(self):
-        """
-        Тест невозможности добавления фото не автором площадки.
-        """
-        self.client.force_authenticate(user=self.another_user)
-        self.images = self.get_image(2)
-        payload = {
-            "image": self.images
-        }
-        response = self.client.post(reverse('areas:area-add-images',
-                                            args=[self.area.id]),
-                                    data=payload,
-                                    format='multipart')
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_get_comments(self):

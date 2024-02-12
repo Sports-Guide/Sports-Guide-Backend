@@ -10,9 +10,13 @@ User = get_user_model()
 class Category(models.Model):
     name = models.CharField(
         unique=True,
-        max_length=20,
-        validators=[MinLengthValidator(2), validate_category_name],
+        max_length=30,
+        validators=[MinLengthValidator(3), validate_category_name],
         verbose_name='название'
+    )
+    area_name = models.CharField(
+        max_length=50,
+        verbose_name='название площадки'
     )
     slug = models.SlugField(
         max_length=255,
@@ -55,6 +59,15 @@ class Area(models.Model):
         max_digits=9,
         decimal_places=6,
         verbose_name='Долгота'
+    )
+    description = models.TextField(
+        max_length=2000,
+        blank=True,
+        verbose_name='Описание площадки'
+    )
+    address = models.CharField(
+        max_length=255,
+        verbose_name='Адрес'
     )
     moderation_status = models.CharField(
         max_length=10,
@@ -103,7 +116,10 @@ class Comment(models.Model):
         related_name='comments',
         verbose_name='площадка'
     )
-    comment = models.TextField(verbose_name='комментарий')
+    comment = models.TextField(
+        max_length=2000,
+        verbose_name='комментарий'
+    )
     date_added = models.DateTimeField(
         auto_now_add=True,
         verbose_name='дата добавления'
@@ -113,3 +129,29 @@ class Comment(models.Model):
         ordering = ['-date_added']
         verbose_name = 'комментарий'
         verbose_name_plural = 'комментарии'
+
+
+class FavoriteArea(models.Model):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='favorite'
+    )
+    area = models.ForeignKey(
+        Area,
+        on_delete=models.CASCADE,
+        related_name='favorite'
+    )
+
+    class Meta:
+        verbose_name = 'Избранная площадка'
+        verbose_name_plural = 'Избранные площадки'
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'area'],
+                name='unique_favorite_area'
+            ),
+        ]
+
+    def __str__(self):
+        return f'{self.user} {self.area}'
