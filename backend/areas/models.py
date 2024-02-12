@@ -53,13 +53,13 @@ class Area(models.Model):
         verbose_name='категории'
     )
     latitude = models.DecimalField(
-        max_digits=9,
-        decimal_places=6,
+        max_digits=18,
+        decimal_places=15,
         verbose_name='Широта'
     )
     longitude = models.DecimalField(
-        max_digits=9,
-        decimal_places=6,
+        max_digits=18,
+        decimal_places=15,
         verbose_name='Долгота'
     )
     description = models.TextField(
