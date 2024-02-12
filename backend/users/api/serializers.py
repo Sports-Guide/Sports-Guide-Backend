@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.contrib.auth import get_user_model
 from djoser.serializers import (
     SendEmailResetSerializer,
@@ -90,31 +89,19 @@ class CustomSendEmailResetSerializer(SendEmailResetSerializer):
     """
     Сериализатор для отправки запроса на сброс пароля.
     """
-    def get_user(self, is_active=True):
-        """
-        Возвращает пользователя по email.
-
-        Расширяет стандартный метод, позволяя неактивным пользователям
-        сбросить пароль.
-        """
-        try:
-            user = User.objects.get(
-                **{self.email_field: self.data.get(self.email_field, "")},
-            )
-            if user.has_usable_password():
-                return user
-        except User.DoesNotExist:
-            pass
-        if (settings.PASSWORD_RESET_SHOW_EMAIL_NOT_FOUND
-                or settings.USERNAME_RESET_SHOW_EMAIL_NOT_FOUND):
-            self.fail("email_not_found")
-
     def validate_email(self, value):
         """
-        Проверяет, существует ли пользователь с данным email.
+        Проверяет, существует ли пользователь с данным email, а также
+
         """
-        if not User.objects.filter(email=value).exists():
+        user = User.objects.filter(email=value)
+        if not user.exists():
             raise ValidationError(
                 "Пользователь с таким адресом электронной почты не найден."
+            )
+        if not user.first().is_active:
+            raise ValidationError(
+                "Пожалуйста, активируйте вашу учетную запись, "
+                "перейдя по ссылке в письме."
             )
         return value
