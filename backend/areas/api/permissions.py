@@ -2,6 +2,11 @@ from rest_framework import permissions
 
 
 class IsAuthorOrAdminOrReadOnly(permissions.BasePermission):
+    """
+    Предоставляет разрешение на чтение для всех пользователей,
+    но ограничивает доступ к изменению и удалению объектов только их авторам
+    или администраторам.
+    """
     def has_permission(self, request, view):
         return (request.method in permissions.SAFE_METHODS
                 or request.user.is_authenticated)
@@ -13,6 +18,11 @@ class IsAuthorOrAdminOrReadOnly(permissions.BasePermission):
 
 
 class IsAdminOrReadOnly(permissions.BasePermission):
+    """
+    Предоставляет разрешение на чтение для всех пользователей,
+    но ограничивает доступ к изменению и удалению объектов
+    только администраторам.
+    """
     def has_permission(self, request, view):
         return (request.method in permissions.SAFE_METHODS
                 or request.user.is_staff)
