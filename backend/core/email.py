@@ -9,4 +9,7 @@ class CustomActivationEmail(email.ActivationEmail):
 
 
 class CustomPasswordResetEmail(email.PasswordResetEmail):
+    """
+    Отправка письма восстановления пароля.
+    """
     template_name = 'core/email/password_reset.html'
