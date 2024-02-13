@@ -92,16 +92,18 @@ class CustomSendEmailResetSerializer(SendEmailResetSerializer):
     def validate_email(self, value):
         """
         Проверяет, существует ли пользователь с данным email, а также
-
+        запрещает восстановления пароля неактивным пользователям.
         """
+        path = self.context.get('request').path
         user = User.objects.filter(email=value)
         if not user.exists():
             raise ValidationError(
-                "Пользователь с таким адресом электронной почты не найден."
+                'Пользователь с таким адресом электронной почты не найден.'
             )
-        if not user.first().is_active:
-            raise ValidationError(
-                "Пожалуйста, активируйте вашу учетную запись, "
-                "перейдя по ссылке в письме."
-            )
+        if path == '/api/users/reset_password/':
+            if not user.first().is_active:
+                raise ValidationError(
+                    'Пожалуйста, активируйте вашу учетную запись, '
+                    'перейдя по ссылке в письме.'
+                )
         return value

@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'social_django',
     'users.apps.UsersConfig',
     'areas.apps.AreasConfig',
+    'core.apps.CoreConfig',
     'django_filters',
     'drf_spectacular',
 ]
@@ -153,6 +154,15 @@ DJOSER = {
         'user_create': 'users.api.serializers.CustomUserCreateSerializer',
         'password_reset': 'users.api.serializers.CustomSendEmailResetSerializer'
     },
+    "EMAIL": {
+        "activation": "core.email.CustomActivationEmail",
+        "confirmation": "djoser.email.ConfirmationEmail",
+        "password_reset": "core.email.CustomPasswordResetEmail",
+        "password_changed_confirmation": "djoser.email.PasswordChangedConfirmationEmail",
+        "username_changed_confirmation": "djoser.email.UsernameChangedConfirmationEmail",
+        "username_reset": "djoser.email.UsernameResetEmail",
+    },
+
     'SOCIAL_AUTH_ALLOWED_REDIRECT_URIS': [os.getenv('FRONTEND_URL')],
     'PASSWORD_RESET_CONFIRM_URL': 'password/reset/confirm/{uid}/{token}',
     'ACTIVATION_URL': 'activate/{uid}/{token}',
