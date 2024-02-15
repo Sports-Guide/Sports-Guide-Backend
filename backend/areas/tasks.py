@@ -4,6 +4,8 @@ import uuid
 
 from PIL import Image
 from django.core.files import File
+from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
 
 from config.celery import app
 
@@ -35,3 +37,20 @@ def process_area_images(area_id, file_paths):
                                                        name=random_filename))
         if os.path.exists(file_path):
             os.remove(file_path)
+
+
+@app.task()
+def send_moderation_email(user_email, status):
+    ru_status = {'approved': 'одобрено', 'rejected': 'отклонено'}
+
+    subject = 'Статус модерации для Вашей площадки изменен'
+    context = {'moderation_status': ru_status[status]}
+    html_message = render_to_string('core/email/area_moderation.html', context)
+    email = EmailMessage(
+        subject,
+        html_message,
+        'info@sports-map.ru',
+        [user_email],
+    )
+    email.content_subtype = 'html'
+    email.send()
