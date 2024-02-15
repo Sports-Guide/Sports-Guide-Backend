@@ -38,6 +38,23 @@ services:
       depends_on:
         - backend
         - frontend
+  redis:
+    image: redis:alpine
+    restart: always
+
+  worker:
+    image: ragimov700/sports-guide-backend
+    command: celery -A config worker --loglevel=info
+    env_file:
+      - .env
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - static:/app/static/
+      - media:/app/media/
+    restart: always
+
 volumes:
   postgres_data:
   static:

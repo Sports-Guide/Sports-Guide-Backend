@@ -202,9 +202,12 @@ EMAIL_HOST = os.getenv('EMAIL_HOST')
 EMAIL_PORT = os.getenv('EMAIL_PORT')
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
-
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+
+
+REDIS_HOST = os.getenv('REDIS_HOST', 'localhost')
+CELERY_BROKER_URL = 'redis://' + REDIS_HOST + ':6379/0'
+CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST + ':6379/0'
