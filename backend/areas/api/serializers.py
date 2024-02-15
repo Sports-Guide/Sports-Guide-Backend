@@ -1,7 +1,7 @@
 from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 
-from areas.models import Area, AreaImage, Category, Comment
+from areas.models import Area, AreaImage, Category, Comment, Report
 from users.api.serializers import (
     CustomUserSerializer,
     CustomUserShortSerializer,
@@ -145,3 +145,32 @@ class AreaReadSerializer(serializers.ModelSerializer):
         if len(categories) == 1:
             return categories[0].area_name
         return 'Спортивная площадка'
+
+
+class ReportSerializer(serializers.ModelSerializer):
+    images = serializers.ListField(
+        child=serializers.ImageField(),
+        write_only=True,
+        required=False
+    )
+    latitude = serializers.DecimalField(
+        max_digits=18,
+        decimal_places=15,
+        required=False
+    )
+    longitude = serializers.DecimalField(
+        max_digits=18,
+        decimal_places=15,
+        required=False
+    )
+
+    class Meta:
+        model = Report
+        fields = [
+            'report_type',
+            'description',
+            'latitude',
+            'longitude',
+            'area',
+            'images'
+        ]

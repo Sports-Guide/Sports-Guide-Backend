@@ -6,14 +6,16 @@ from rest_framework.parsers import JSONParser, MultiPartParser
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
+
 from areas.api.serializers import (
     AreaReadSerializer,
     AreaSerializer,
     CategorySerializer,
     CommentSerializer,
+    ReportSerializer,
 )
 from areas.constants import ModerationStatus
-from areas.models import Area, Category, Comment, FavoriteArea
+from areas.models import Area, Category, Comment, FavoriteArea, Report
 
 from .filters import AreaFilter
 from .pagination import CommentPaginator
@@ -136,3 +138,42 @@ class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
     permission_classes = (IsAuthorOrAdminOrReadOnly,)
     pagination_class = CommentPaginator
+
+
+class ReportViewSet(viewsets.ViewSet):
+    permission_classes = [IsAuthenticated]
+
+    def create(self, request):
+        pk = request.data.get('area')
+        if pk is None:
+            return Response(
+                {'error': 'Необходимо указать площадку'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        try:
+            area = Area.objects.get(pk=pk)
+        except Area.DoesNotExist:
+            return Response(
+                {'error': 'Площадка не найдена'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+        report_type = request.data.get('report_type')
+        description = request.data.get('description')
+        if Report.objects.filter(
+            area=area,
+            report_type=report_type,
+            description=description,
+            user=request.user
+        ).exists():
+            return Response(
+                {'error': 'Вы уже отправили такой отчет'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        serializer = ReportSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(user=request.user, area=area)
+            return Response(
+                {'message': 'Исправление на проверке'},
+                status=status.HTTP_201_CREATED
+            )
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
