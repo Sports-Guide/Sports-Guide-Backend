@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'social_django',
     'users.apps.UsersConfig',
     'areas.apps.AreasConfig',
+    'reports.apps.ReportsConfig',
     'core.apps.CoreConfig',
     'django_filters',
     'drf_spectacular',
