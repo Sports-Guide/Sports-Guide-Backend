@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from areas.models import Area, AreaImage, Category, Comment
+from areas.models import Area, AreaImage, Category, Comment, Report
 
 
 class AreaImageInline(admin.TabularInline):
@@ -48,3 +48,15 @@ class CommentAdmin(admin.ModelAdmin):
     list_display = ('author', 'area', 'comment', 'date_added')
     list_filter = ('date_added',)
     search_fields = ('comment', 'author__nickname',)
+
+
+@admin.register(Report)
+class ReportAdmin(admin.ModelAdmin):
+    list_display = [
+        'area',
+        'report_type',
+        'description',
+        'latitude',
+        'longitude',
+        'user'
+    ]
