@@ -1,8 +1,3 @@
-{% block subject %}
-Активация аккаунта
-{% endblock subject %}
-
-{% block html_body %}
 <!doctype html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:v="urn:schemas-microsoft-com:vml"
@@ -215,22 +210,7 @@
                                     style="font-size:0px;padding:10px 25px;padding-bottom:40px;word-break:break-word;">
 
                                     <div style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:32px;font-weight:bold;line-height:1;text-align:center;color:#555;">
-                                        Активация учетной записи
-                                    </div>
-
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td align="center"
-                                    style="font-size:0px;padding:10px 25px;padding-bottom:0;word-break:break-word;">
-
-                                    <div style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:16px;line-height:22px;text-align:center;color:#555;">
-
-Вы зарегистрировались на сайте {{ domain }}.
-
-
-
+                                        Статус модерации изменен
                                     </div>
 
                                 </td>
@@ -241,7 +221,7 @@
                                     style="font-size:0px;padding:10px 25px;word-break:break-word;">
 
                                     <div style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:16px;line-height:22px;text-align:center;color:#555;">
-                                        Чтобы завершить процесс регистрации, пожалуйста, подтвердите ваш адрес электронной почты. 🤪
+                                        Уважаемый пользователь, статус модерации Вашей площадки был изменен на "<strong>{{ moderation_status }}</strong>"
                                     </div>
 
                                 </td>
@@ -252,7 +232,7 @@
                                     style="font-size:0px;padding:10px 25px;word-break:break-word;">
 
                                     <div style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:16px;line-height:22px;text-align:center;color:#555;">
-                                        Для этого нажмите на кнопку ниже:
+                                        Чтобы перейти к площадке нажмите кнопку ниже:
                                     </div>
 
                                 </td>
@@ -267,36 +247,13 @@
                                            style="border-collapse:separate;line-height:100%;">
                                         <tr>
                                             <td align="center" valign="middle">
-                                                <a href="{{ protocol }}://{{ domain }}/{{ url|safe }}"
+                                                <a href="https://sports-map.ru"
                                                    style="background:#2F67F6; border:none; border-radius:3px; color:#ffffff; cursor:pointer; padding:15px 25px; text-decoration:none; display:inline-block; font-family:'Helvetica Neue', Arial, sans-serif; font-size:15px; font-weight:normal; line-height:120%; text-transform:none; mso-padding-alt:0px; text-align:center; display: inline-block; width: auto;">
-                                                    Подтвердить
+                                                    Перейти
                                                 </a>
                                             </td>
                                         </tr>
                                     </table>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td align="center"
-                                    style="font-size:0px;padding:10px 25px;padding-bottom:0;word-break:break-word;">
-
-                                    <div style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:16px;line-height:22px;text-align:center;color:#555;">
-                                        Или перейдите по ссылке:
-                                    </div>
-
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td align="center"
-                                    style="font-size:0px;padding:10px 25px;padding-bottom:40px;word-break:break-word;">
-
-                                    <div style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:16px;line-height:22px;text-align:center;color:#555;">
-                                        <a href="{{ protocol }}://{{ domain }}/{{ url|safe }}"
-                                           style="color:#2F67F6">{{ protocol }}://{{ domain }}/{{ url|safe }}</a>
-                                    </div>
-
                                 </td>
                             </tr>
 
@@ -419,4 +376,3 @@
 </body>
 
 </html>
-{% endblock html_body %}

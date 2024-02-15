@@ -1,7 +1,12 @@
+import os
+
+from django.conf import settings
+from django.core.files.storage import FileSystemStorage
 from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 
 from areas.models import Area, AreaImage, Category, Comment
+from areas.tasks import process_area_images
 from users.api.serializers import (
     CustomUserSerializer,
     CustomUserShortSerializer,
@@ -75,6 +80,23 @@ class AreaSerializer(serializers.ModelSerializer):
             )
         return category_ids
 
+    def validate_images(self, value):
+        """
+        Валидирует изображения, проверяя их количество и размер.
+        """
+        if len(value) > 4:
+            raise serializers.ValidationError(
+                'Нельзя загрузить больше 4 изображений.'
+            )
+
+        max_image_size = 5 * 1024 * 1024
+        for img in value:
+            if img.size > max_image_size:
+                raise serializers.ValidationError(
+                    'Размер изображения не должен превышать 5MB.'
+                )
+        return value
+
     def create(self, validated_data):
         """
         Создает площадку, учитывая переданные категории и изображения.
@@ -86,8 +108,17 @@ class AreaSerializer(serializers.ModelSerializer):
         area.categories.set(category_ids)
 
         if images_data:
-            for image_data in images_data:
-                AreaImage.objects.create(area=area, image=image_data)
+            file_paths = []
+            for image in images_data:
+                temp_storage = FileSystemStorage(
+                    location=os.path.join(settings.MEDIA_ROOT, 'temp')
+                )
+                filename = temp_storage.save(f"{area.id}_{image.name}", image)
+                file_path = temp_storage.path(filename)
+                file_paths.append(file_path)
+
+            process_area_images.delay(area.id, file_paths)
+
         return area
 
     def to_representation(self, instance):
@@ -99,10 +130,6 @@ class AreaSerializer(serializers.ModelSerializer):
             instance.categories.all(), many=True
         )
         representation['categories'] = categories_serializer.data
-        images_serializer = AreaImageSerializer(
-            instance.areaimage_set.all(), many=True
-        )
-        representation['images'] = images_serializer.data
         return representation
 
 
