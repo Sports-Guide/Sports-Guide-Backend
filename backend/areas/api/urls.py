@@ -4,9 +4,8 @@ from areas.api.views import (
     AreaViewSet,
     CategoryViewSet,
     CommentViewSet,
-    ReportViewSet
+    ReportViewSet,
 )
-
 
 app_name = 'areas'
 

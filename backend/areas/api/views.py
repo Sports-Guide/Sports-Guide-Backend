@@ -6,7 +6,6 @@ from rest_framework.parsers import JSONParser, MultiPartParser
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-
 from areas.api.serializers import (
     AreaReadSerializer,
     AreaSerializer,
