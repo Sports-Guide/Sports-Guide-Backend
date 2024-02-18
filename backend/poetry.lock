@@ -522,6 +522,20 @@ argon2 = ["argon2-cffi (>=19.1.0)"]
 bcrypt = ["bcrypt"]
 
 [[package]]
+name = "django-cachalot"
+version = "2.6.2"
+description = "Caches your Django ORM queries and automatically invalidates them."
+optional = false
+python-versions = "*"
+files = [
+    {file = "django-cachalot-2.6.2.tar.gz", hash = "sha256:1ea598845d0dd522173274bf2659ba3d962b3c69309874bf1fc73838fb1cd39c"},
+    {file = "django_cachalot-2.6.2-py3-none-any.whl", hash = "sha256:40bb42f4cca185f59d28b4cd9155426f620f0d16210619d62058f095f8f2a14b"},
+]
+
+[package.dependencies]
+Django = ">=3.2,<5.1"
+
+[[package]]
 name = "django-cors-headers"
 version = "4.3.1"
 description = "django-cors-headers is a Django application for handling the server headers required for Cross-Origin Resource Sharing (CORS)."
@@ -1481,4 +1495,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "8de6c639b64f61cc11605e355dd194b23f7de4e19365c34b950cc0a138ead979"
+content-hash = "7a0ab70294c0817561975f6fb11072485de49a3608582327e36c4a2a91402d33"

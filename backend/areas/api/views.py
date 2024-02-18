@@ -56,8 +56,6 @@ class AreaViewSet(viewsets.ModelViewSet):
                 ).prefetch_related(
                     'categories', 'areaimage_set', 'favorite'
                 )
-            case 'add_images':
-                return Area.objects.all()
             case _:
                 return Area.objects.all()
 
