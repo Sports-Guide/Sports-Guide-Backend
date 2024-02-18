@@ -1,3 +1,6 @@
+import json
+
+from django.core.cache import cache
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status, viewsets
@@ -56,10 +59,23 @@ class AreaViewSet(viewsets.ModelViewSet):
                 ).prefetch_related(
                     'categories', 'areaimage_set', 'favorite'
                 )
-            case 'add_images':
-                return Area.objects.all()
             case _:
                 return Area.objects.all()
+
+    def list(self, request, *args, **kwargs):
+        cache_key = 'areas_list'
+        cached_data = cache.get(cache_key)
+
+        if cached_data:
+            data = json.loads(cached_data)
+            return Response(data)
+        else:
+            queryset = self.get_queryset()
+            serializer = self.get_serializer(queryset, many=True)
+            serialized_data = serializer.data
+
+            cache.set(cache_key, json.dumps(serialized_data), 60 * 5)
+            return Response(serialized_data)
 
     @action(detail=True, methods=['get'])
     def comments(self, request, pk=None):

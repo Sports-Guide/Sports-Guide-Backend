@@ -209,5 +209,13 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
 
 REDIS_HOST = os.getenv('REDIS_HOST', 'localhost')
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": 'redis://' + REDIS_HOST + ':6379/1',
+    }
+}
+
 CELERY_BROKER_URL = 'redis://' + REDIS_HOST + ':6379/0'
 CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST + ':6379/0'
