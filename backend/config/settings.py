@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'djoser',
     'social_django',
+    'cachalot',
     'users.apps.UsersConfig',
     'areas.apps.AreasConfig',
     'core.apps.CoreConfig',
