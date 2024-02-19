@@ -5,7 +5,7 @@ class IsAuthorOrAdminOrReadOnly(permissions.BasePermission):
     """
     Предоставляет разрешение на чтение для всех пользователей,
     но ограничивает доступ к изменению и удалению объектов только их авторам
-    или администраторам.
+    или если пользователь имеет статус персонала (is_staff).
     """
     def has_permission(self, request, view):
         return (request.method in permissions.SAFE_METHODS
@@ -21,7 +21,7 @@ class IsAdminOrReadOnly(permissions.BasePermission):
     """
     Предоставляет разрешение на чтение для всех пользователей,
     но ограничивает доступ к изменению и удалению объектов
-    только администраторам.
+    только пользователей, которые имеют статус персонала (is_staff).
     """
     def has_permission(self, request, view):
         return (request.method in permissions.SAFE_METHODS

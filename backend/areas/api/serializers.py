@@ -7,6 +7,7 @@ from rest_framework import serializers
 
 from areas.models import Area, AreaImage, Category, Comment
 from areas.tasks import process_area_images
+from core.constants import MAX_IMAGE_SIZE
 from users.api.serializers import (
     CustomUserSerializer,
     CustomUserShortSerializer,
@@ -89,9 +90,8 @@ class AreaSerializer(serializers.ModelSerializer):
                 'Нельзя загрузить больше 4 изображений.'
             )
 
-        max_image_size = 5 * 1024 * 1024
         for img in value:
-            if img.size > max_image_size:
+            if img.size > MAX_IMAGE_SIZE:
                 raise serializers.ValidationError(
                     'Размер изображения не должен превышать 5MB.'
                 )
