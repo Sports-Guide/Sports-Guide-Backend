@@ -161,7 +161,7 @@ class ImageSerializer(serializers.ModelSerializer):
 
 
 class ReportSerializer(serializers.ModelSerializer):
-    images = ImageSerializer(many=True, required=False)
+    images = ImageSerializer(many=True)
     latitude = serializers.DecimalField(
         max_digits=18,
         decimal_places=15,

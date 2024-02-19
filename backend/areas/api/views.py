@@ -131,6 +131,9 @@ class AreaViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=['post'],
             permission_classes=[IsAuthenticated])
     def create_report(self, request, pk=None):
+        """
+        Отправляет уточнение информации по площадкам.
+        """
         area = self.get_object()
         report_type = request.data.get('report_type')
         description = request.data.get('description')

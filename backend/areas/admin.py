@@ -53,6 +53,9 @@ class CommentAdmin(admin.ModelAdmin):
 
 @admin.register(Report)
 class ReportAdmin(admin.ModelAdmin):
+    """
+    Конфигурация панели администратора для уточнения информации.
+    """
     list_display = [
         'area',
         'report_type',
@@ -64,6 +67,9 @@ class ReportAdmin(admin.ModelAdmin):
     ]
 
     def display_images(self, obj):
+        """
+        Конфигурация панели администратора для комментариев.
+        """
         images = obj.images.all()
         if not images:
             return 'Нет фото'
