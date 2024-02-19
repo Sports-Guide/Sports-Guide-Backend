@@ -18,15 +18,26 @@ class CategorySerializer(serializers.ModelSerializer):
     """
     Сериализатор для модели категорий.
     """
+    icon = serializers.SerializerMethodField()
+
     class Meta:
         model = Category
-        fields = '__all__'
+        fields = ('id', 'name', 'slug', 'icon')
+
+    def get_icon(self, obj):
+        if obj.icon and obj.icon.image:
+            request = self.context.get('request')
+            icon_url = obj.icon.image.url
+            return request.build_absolute_uri(
+                icon_url) if request else icon_url
+        return None
 
 
 class AreaImageSerializer(serializers.ModelSerializer):
     """
     Сериализатор для изображений площадок.
     """
+
     class Meta:
         model = AreaImage
         fields = ('image',)

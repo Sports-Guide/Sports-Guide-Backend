@@ -1,6 +1,7 @@
 from django.contrib import admin
+from django.utils.safestring import mark_safe
 
-from areas.models import Area, AreaImage, Category, Comment
+from areas.models import Area, AreaImage, Category, CategoryIcon, Comment
 
 
 class AreaImageInline(admin.TabularInline):
@@ -38,6 +39,26 @@ class CategoryAdmin(admin.ModelAdmin):
     list_display = ('name',)
     search_fields = ('name',)
     prepopulated_fields = {"slug": ["name"]}
+
+
+@admin.register(CategoryIcon)
+class CategoryIconAdmin(admin.ModelAdmin):
+    """
+    Конфигурация панели администратора для иконок категорий.
+    """
+    list_display = ('name', 'get_photo')
+    search_fields = ('name',)
+    readonly_fields = ('get_photo',)
+
+    def get_photo(self, obj):
+        """
+        Метод для отображения иконки категории в панели администратора.
+        """
+        if obj.image:
+            return mark_safe(f'<img src={obj.image.url} width="50"')
+        return 'Без фото'
+
+    get_photo.short_description = 'Изображение'
 
 
 @admin.register(Comment)

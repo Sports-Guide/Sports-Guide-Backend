@@ -11,6 +11,12 @@ class CustomUserViewSet(UserViewSet):
     """
     ViewSet для пользователей.
     """
+
+    def resend_activation(self, request, *args, **kwargs):
+        super().resend_activation(request, *args, **kwargs)
+
+        return Response({"email": request.data['email']})
+
     def destroy(self, request, *args, **kwargs):
         """
         Удаляет аккаунт текущего пользователя.
