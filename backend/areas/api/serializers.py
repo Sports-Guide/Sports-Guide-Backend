@@ -5,7 +5,7 @@ from django.core.files.storage import FileSystemStorage
 from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 
-from areas.models import Area, AreaImage, Category, CategoryIcon, Comment
+from areas.models import Area, AreaImage, Category, Comment
 from areas.tasks import process_area_images
 from core.constants import MAX_IMAGE_SIZE
 from users.api.serializers import (
@@ -14,21 +14,23 @@ from users.api.serializers import (
 )
 
 
-class CategoryIconSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CategoryIcon
-        fields = ('image',)
-
-
 class CategorySerializer(serializers.ModelSerializer):
     """
     Сериализатор для модели категорий.
     """
-    icon = CategoryIconSerializer(read_only=True)
+    icon = serializers.SerializerMethodField()
 
     class Meta:
         model = Category
         fields = ('id', 'name', 'slug', 'icon')
+
+    def get_icon(self, obj):
+        if obj.icon and obj.icon.image:
+            request = self.context.get('request')
+            icon_url = obj.icon.image.url
+            return request.build_absolute_uri(
+                icon_url) if request else icon_url
+        return None
 
 
 class AreaImageSerializer(serializers.ModelSerializer):
