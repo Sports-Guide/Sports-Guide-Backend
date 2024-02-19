@@ -128,34 +128,10 @@ class AreaViewSet(viewsets.ModelViewSet):
                                         context={'request': request})
         return Response(serializer.data)
 
-
-class CommentViewSet(viewsets.ModelViewSet):
-    """
-    ViewSet для комментариев.
-    """
-    queryset = Comment.objects.all()
-    serializer_class = CommentSerializer
-    permission_classes = (IsAuthorOrAdminOrReadOnly,)
-    pagination_class = CommentPaginator
-
-
-class ReportViewSet(viewsets.ViewSet):
-    permission_classes = [IsAuthenticated]
-
-    def create(self, request):
-        pk = request.data.get('area')
-        if pk is None:
-            return Response(
-                {'error': 'Необходимо указать площадку'},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-        try:
-            area = Area.objects.get(pk=pk)
-        except Area.DoesNotExist:
-            return Response(
-                {'error': 'Площадка не найдена'},
-                status=status.HTTP_404_NOT_FOUND
-            )
+    @action(detail=True, methods=['post'],
+            permission_classes=[IsAuthenticated])
+    def create_report(self, request, pk=None):
+        area = self.get_object()
         report_type = request.data.get('report_type')
         description = request.data.get('description')
         if Report.objects.filter(
@@ -176,3 +152,13 @@ class ReportViewSet(viewsets.ViewSet):
                 status=status.HTTP_201_CREATED
             )
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class CommentViewSet(viewsets.ModelViewSet):
+    """
+    ViewSet для комментариев.
+    """
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+    permission_classes = (IsAuthorOrAdminOrReadOnly,)
+    pagination_class = CommentPaginator
