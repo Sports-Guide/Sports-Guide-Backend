@@ -8,6 +8,7 @@ from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 
 from config.celery import app
+from core.constants import FROM_EMAIL
 
 from .models import Area, AreaImage
 
@@ -49,7 +50,7 @@ def send_moderation_email(user_email, status):
     email = EmailMessage(
         subject,
         html_message,
-        'info@sports-map.ru',
+        FROM_EMAIL,
         [user_email],
     )
     email.content_subtype = 'html'
