@@ -155,8 +155,6 @@ class AreaReadSerializer(serializers.ModelSerializer):
 
 
 class ImageSerializer(serializers.ModelSerializer):
-    image = serializers.ImageField(required=False)
-
     class Meta:
         model = ReportImage
         fields = ('image',)
