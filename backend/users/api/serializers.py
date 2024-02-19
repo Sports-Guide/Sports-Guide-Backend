@@ -62,9 +62,11 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     неактивных пользовательских аккаунтов.
     """
     default_error_messages = {
-        "invalid_data": "Неверный логин или пароль",
-        "inactive_user": "Пожалуйста, активируйте вашу учетную запись, "
-                         "перейдя по ссылке в письме."
+        'invalid_data': 'Неверный логин или пароль',
+        'inactive_user': 'Пожалуйста, активируйте вашу учетную запись, '
+                         'перейдя по ссылке в письме.',
+        'invalid_email': 'Пользователь с таким адресом электронной почты '
+                         'не найден.'
     }
 
     def validate(self, attrs):
@@ -81,7 +83,7 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
                     self.error_messages['inactive_user']
                 )
         except User.DoesNotExist:
-            raise ParseError(self.error_messages['invalid_data'])
+            raise ParseError(self.error_messages['invalid_email'])
         return super().validate(attrs)
 
 
