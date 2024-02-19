@@ -163,6 +163,7 @@ class FavoriteArea(models.Model):
 
 
 class Report(models.Model):
+    """Модель для уточнения информации."""
     REPORT_CHOICES = [
         ('WRONG_INFO', 'Неправильная информация'),
         ('CLOSED', 'Площадка закрылась'),
@@ -181,10 +182,6 @@ class Report(models.Model):
         null=True,
         max_length=256,
         verbose_name='неправильная информация')
-    images = models.ImageField(
-        upload_to='area_images/',
-        verbose_name='изображение'
-    )
     latitude = models.DecimalField(
         max_digits=18,
         decimal_places=15,
@@ -203,3 +200,17 @@ class Report(models.Model):
     class Meta:
         verbose_name = 'уточнение информации'
         verbose_name_plural = 'уточнение информации'
+
+
+class ReportImage(models.Model):
+    """Модель для изображений площадки в уточнении информации."""
+    report = models.ForeignKey(
+        Report,
+        related_name='images',
+        on_delete=models.CASCADE,
+        verbose_name='уточнение информации',
+    )
+    image = models.ImageField(
+        upload_to='report_images/',
+        verbose_name='картинка',
+    )

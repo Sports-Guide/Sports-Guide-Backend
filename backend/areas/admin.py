@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.html import format_html_join, mark_safe
 
 from areas.models import Area, AreaImage, Category, Comment, Report
 
@@ -58,5 +59,16 @@ class ReportAdmin(admin.ModelAdmin):
         'description',
         'latitude',
         'longitude',
-        'user'
+        'user',
+        'display_images'
     ]
+
+    def display_images(self, obj):
+        images = obj.images.all()
+        if not images:
+            return 'Нет фото'
+        return mark_safe(format_html_join(
+            '\n', "<img src='{}' width='50'>",
+            ((image.image.url,) for image in images)
+        ))
+    display_images.short_description = 'Images'
