@@ -6,6 +6,9 @@ from .models import CustomUser
 
 @admin.register(CustomUser)
 class CustomUserAdmin(admin.ModelAdmin):
+    """
+    Конфигурация панели администратора для модели пользователя.
+    """
     list_display = (
         'id',
         'email',
@@ -23,6 +26,9 @@ class CustomUserAdmin(admin.ModelAdmin):
     readonly_fields = ("get_photo",)
 
     def get_photo(self, obj):
+        """
+        Метод для отображения фотографии пользователя в панели администратора.
+        """
         if obj.photo:
             return mark_safe(f'<img src={obj.photo.url} width="50"')
         return "Без фото"

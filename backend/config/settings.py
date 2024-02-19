@@ -33,8 +33,10 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'djoser',
     'social_django',
+    'cachalot',
     'users.apps.UsersConfig',
     'areas.apps.AreasConfig',
+    'core.apps.CoreConfig',
     'django_filters',
     'drf_spectacular',
 ]
@@ -79,13 +81,23 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('POSTGRES_DB', 'postgres'),
+        'USER': os.getenv('POSTGRES_USER', 'admin'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'password'),
+        'HOST': os.getenv('DB_HOST', 'localhost'),
+        'PORT': os.getenv('DB_PORT', 5432)
     }
 }
-
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
@@ -153,6 +165,15 @@ DJOSER = {
         'user_create': 'users.api.serializers.CustomUserCreateSerializer',
         'password_reset': 'users.api.serializers.CustomSendEmailResetSerializer'
     },
+    "EMAIL": {
+        "activation": "core.email.CustomActivationEmail",
+        "confirmation": "djoser.email.ConfirmationEmail",
+        "password_reset": "core.email.CustomPasswordResetEmail",
+        "password_changed_confirmation": "djoser.email.PasswordChangedConfirmationEmail",
+        "username_changed_confirmation": "djoser.email.UsernameChangedConfirmationEmail",
+        "username_reset": "djoser.email.UsernameResetEmail",
+    },
+
     'SOCIAL_AUTH_ALLOWED_REDIRECT_URIS': [os.getenv('FRONTEND_URL')],
     'PASSWORD_RESET_CONFIRM_URL': 'password/reset/confirm/{uid}/{token}',
     'ACTIVATION_URL': 'activate/{uid}/{token}',
@@ -182,9 +203,26 @@ EMAIL_HOST = os.getenv('EMAIL_HOST')
 EMAIL_PORT = os.getenv('EMAIL_PORT')
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
-
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+
+
+REDIS_HOST = os.getenv('REDIS_HOST', 'localhost')
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": 'redis://' + REDIS_HOST + ':6379/1',
+    }
+}
+CACHALOT_ONLY_CACHABLE_TABLES = frozenset((
+    'areas_area',
+    'areas_category',
+    'areas_areaimage',
+    'areas_favoritearea',
+    'users_customuser',
+    'areas_area_categories'
+))
+CELERY_BROKER_URL = 'redis://' + REDIS_HOST + ':6379/0'
+CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST + ':6379/0'

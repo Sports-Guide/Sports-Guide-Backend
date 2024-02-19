@@ -6,6 +6,9 @@ from django.utils import timezone
 
 
 class CustomUserManager(BaseUserManager):
+    """
+    Менеджер пользовательских моделей для кастомной модели пользователя.
+    """
     def create_user(self, email, password=None, **extra_fields):
         if not email:
             raise ValueError('Users must have an email address')
@@ -29,6 +32,9 @@ class CustomUserManager(BaseUserManager):
 
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
+    """
+    Кастомная модель пользователя, расширяющая базовую модель пользователя.
+    """
     email = models.EmailField(
         max_length=50,
         unique=True,

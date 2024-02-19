@@ -8,6 +8,7 @@ User = get_user_model()
 
 
 class Category(models.Model):
+    """Модель категории."""
     name = models.CharField(
         unique=True,
         max_length=30,
@@ -33,6 +34,7 @@ class Category(models.Model):
 
 
 class Area(models.Model):
+    """Модель площадки."""
     MODERATION_STATUS_CHOICES = [
         ('rejected', 'Отклонено'),
         ('pending', 'На рассмотрении'),
@@ -51,13 +53,13 @@ class Area(models.Model):
         verbose_name='категории'
     )
     latitude = models.DecimalField(
-        max_digits=9,
-        decimal_places=6,
+        max_digits=18,
+        decimal_places=15,
         verbose_name='Широта'
     )
     longitude = models.DecimalField(
-        max_digits=9,
-        decimal_places=6,
+        max_digits=18,
+        decimal_places=15,
         verbose_name='Долгота'
     )
     description = models.TextField(
@@ -89,6 +91,7 @@ class Area(models.Model):
 
 
 class AreaImage(models.Model):
+    """Модель изображений площадки."""
     area = models.ForeignKey(
         Area,
         on_delete=models.CASCADE,
@@ -105,6 +108,7 @@ class AreaImage(models.Model):
 
 
 class Comment(models.Model):
+    """Модель комментариев к площадке."""
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
@@ -132,6 +136,7 @@ class Comment(models.Model):
 
 
 class FavoriteArea(models.Model):
+    """Модель избранных площадок."""
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
