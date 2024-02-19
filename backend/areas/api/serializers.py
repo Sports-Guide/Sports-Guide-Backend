@@ -18,9 +18,16 @@ class CategorySerializer(serializers.ModelSerializer):
     """
     Сериализатор для модели категорий.
     """
+    icon = serializers.SerializerMethodField()
+
     class Meta:
         model = Category
-        fields = '__all__'
+        fields = ('id', 'name', 'slug', 'icon')
+
+    def get_icon(self, obj):
+        if obj.icon and obj.icon.image:
+            return obj.icon.image.url
+        return None
 
 
 class AreaImageSerializer(serializers.ModelSerializer):
