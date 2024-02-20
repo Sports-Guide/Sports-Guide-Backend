@@ -155,12 +155,18 @@ class AreaReadSerializer(serializers.ModelSerializer):
 
 
 class ImageSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор для изображений площадок в уточнении информации.
+    """
     class Meta:
         model = ReportImage
         fields = ('image',)
 
 
 class ReportSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор для уточнения информации.
+    """
     images = ImageSerializer(many=True)
     latitude = serializers.DecimalField(
         max_digits=18,

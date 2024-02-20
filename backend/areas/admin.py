@@ -68,7 +68,7 @@ class ReportAdmin(admin.ModelAdmin):
 
     def display_images(self, obj):
         """
-        Конфигурация панели администратора для комментариев.
+        Метод для отображения изображений площадок.
         """
         images = obj.images.all()
         if not images:
