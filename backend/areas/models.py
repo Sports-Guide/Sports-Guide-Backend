@@ -24,6 +24,13 @@ class Category(models.Model):
         unique=True,
         verbose_name='уникальный тег',
     )
+    icon = models.ForeignKey(
+        'CategoryIcon',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name='иконка'
+    )
 
     def __str__(self):
         return self.name
@@ -31,6 +38,24 @@ class Category(models.Model):
     class Meta:
         verbose_name = 'категория'
         verbose_name_plural = 'категории'
+
+
+class CategoryIcon(models.Model):
+    name = models.CharField(
+        max_length=100,
+        verbose_name='название'
+    )
+    image = models.ImageField(
+        upload_to='category_icons/',
+        verbose_name='изображение'
+    )
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'иконка'
+        verbose_name_plural = 'иконки'
 
 
 class Area(models.Model):
