@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:13-alpine
+    volumes:
+      - sportguide_postgres_data:/var/lib/postgresql/data
+    env_file:
+      - .env.example
+    restart: always
+
+  backend:
+    build: ../backend
+    restart: always
+    volumes:
+      - ../backend:/app/
+    env_file:
+      - .env.example
+    ports:
+      - "8000:8000"
+    command: >
+      sh -c "python manage.py collectstatic --no-input &&
+             sleep 3 && 
+             python manage.py migrate && 
+             python manage.py runserver 0.0.0.0:8000"
+    depends_on:
+        - db
+
+  redis:
+    image: redis:alpine
+    restart: always
+
+  worker:
+    build: ../backend
+    command: celery -A config worker --loglevel=info
+    env_file:
+      - .env.example
+    depends_on:
+      - db
+      - redis
+    restart: always
+
+volumes:
+  sportguide_postgres_data:
+  sportguide_static:
+  sportguide_media:

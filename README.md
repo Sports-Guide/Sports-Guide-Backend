@@ -17,6 +17,39 @@
 ![Nginx](https://img.shields.io/badge/nginx-%23009639.svg?style=for-the-badge&logo=nginx&logoColor=white)
 ![Pillow](https://img.shields.io/badge/pillow-%23751816.svg?style=for-the-badge&logo=python&logoColor=white)
 
-## Как запустить проект
+## Начало работы
 
-coming soon...
+Эти инструкции позволят вам запустить копию проекта на вашем локальном компьютере для разработки и тестирования.
+
+<details>
+<summary><strong>Запуск с использованием Docker</strong></summary>
+
+### Предварительные требования
+
+Убедитесь, что у вас установлены Docker и Docker Compose. Это можно сделать, следуя официальной документации Docker: https://docs.docker.com/get-docker/ и https://docs.docker.com/compose/install/
+
+### Установка и запуск
+
+1. Клонируйте репозиторий на компьютер:
+   ```
+   git clone git@github.com:Sports-Guide/Sports-Guide-Backend.git
+   ```
+2. Перейдите в папку infra:
+   ```
+   cd Sports-Guide-Backend/infra/
+   ```
+
+3. Запустите проект с помощью Docker Compose:
+   ```
+   docker compose -f docker-compose.local.yml up
+   ```
+
+   Теперь приложение должно быть доступно по адресу:
+
+   http://localhost:8000
+   
+   А документация доступна по адресу:
+   
+   http://localhost:8000/api/schema/swagger-ui/
+
+</details>

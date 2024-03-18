@@ -16,7 +16,7 @@ DEBUG = os.getenv('DEBUG', 'True').lower() == 'true'
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '127.0.0.1').split(', ')
 
-CSRF_TRUSTED_ORIGINS = ['https://sports-map.ru', 'http://193.107.239.81:8000']
+CSRF_TRUSTED_ORIGINS = ['https://sports-map.ru', 'http://127.0.0.1:8000']
 CORS_ALLOW_ALL_ORIGINS = True
 AUTH_USER_MODEL = 'users.CustomUser'
 
@@ -54,9 +54,10 @@ MIDDLEWARE = [
 if DEBUG:
     MIDDLEWARE += ['debug_toolbar.middleware.DebugToolbarMiddleware']
     INSTALLED_APPS += ['debug_toolbar']
-    INTERNAL_IPS = [
-        '127.0.0.1',
-    ]
+
+    import socket
+    hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
+    INTERNAL_IPS = ["127.0.0.1", "localhost"] + [ip[:-1] + "1" for ip in ips]
 
 ROOT_URLCONF = 'config.urls'
 
