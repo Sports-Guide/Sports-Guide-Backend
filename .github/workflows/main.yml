@@ -89,7 +89,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
           source: "infra/docker-compose.yml"
-          target: "sports-map"
+          target: "sports-map/docker-compose.yml"
       - name: Executing remote ssh commands to deploy
         uses: appleboy/ssh-action@master
         with:
@@ -101,4 +101,4 @@ jobs:
             docker compose pull
             docker compose down
             docker compose up -d
-            docker compose prune -f
+            docker image prune -f
